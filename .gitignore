@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Dados brutos temporarios de telemetria (nao commitar; so os processados entram)
+data/_raw/
