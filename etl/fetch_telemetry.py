@@ -2,8 +2,11 @@
 fetch_telemetry.py -- busca telemetria em tempo real da ANA (roda 1x/dia).
 
 Baixa as leituras sub-diarias (~15 min) das 50 estacoes via SOAP,
-agrega para media diaria e atualiza data/current/<code>.parquet
-(temporada corrente, incremental -- so adiciona dias novos).
+agrega para media diaria e atualiza data/current/<code>.parquet -- um
+buffer rolante (ultimos KEEP_DAYS dias), NAO recortado por temporada.
+O recorte out-jun (para o CEI) e feito na leitura, em build_index.py e
+app.py -- assim a leitura mais recente fica sempre disponivel mesmo na
+entressafra (jul-set), quando a temporada de risco esta fechada.
 
 Robusto por design:
   - falha por estacao nao derruba o job;
@@ -32,6 +35,7 @@ CUR_DIR = Path(__file__).resolve().parent.parent / "data" / "current"
 CUR_DIR.mkdir(parents=True, exist_ok=True)
 
 LOOKBACK_DAYS = 45          # janela buscada a cada rodada
+KEEP_DAYS = 450             # buffer rolante guardado no parquet (~15 meses)
 MIN_SUCCESS_FRACTION = 0.5  # < isto => aborta sem commit
 
 
@@ -72,24 +76,21 @@ def data_type_of(code: str) -> str:
     return "flow"
 
 
-def merge_current(code: str, new_daily: pd.Series, season_year: int) -> int:
-    """Funde novos dias na temporada corrente. Retorna nro de dias novos."""
-    start, end = hydro.season_bounds(season_year)
-    new_daily = new_daily[(new_daily.index >= start) & (new_daily.index <= end)]
+def merge_current(code: str, new_daily: pd.Series) -> int:
+    """Funde novos dias no buffer rolante. Retorna nro de dias novos."""
     if new_daily.empty:
         return 0
     path = CUR_DIR / f"{code}.parquet"
     if path.exists():
         old = pd.read_parquet(path)["value"]
         old.index = pd.to_datetime(old.index)
-        # reset se o parquet e de temporada anterior
-        if old.index.max() < start:
-            old = pd.Series(dtype=float)
     else:
         old = pd.Series(dtype=float)
     added = new_daily.index.difference(old.index)
     merged = pd.concat([old, new_daily])
     merged = merged[~merged.index.duplicated(keep="last")].sort_index()
+    cutoff = merged.index.max() - pd.Timedelta(days=KEEP_DAYS)
+    merged = merged[merged.index >= cutoff]
     pd.DataFrame({"value": merged}).to_parquet(path)
     return len(added)
 
@@ -109,7 +110,7 @@ def main() -> None:
         try:
             raw = fetch(code, start, end)
             daily = to_daily(raw, dtype)
-            added = merge_current(code, daily, season_year)
+            added = merge_current(code, daily)
             ok += 1
             total_added += added
             last = daily.index.max().date() if not daily.empty else "-"

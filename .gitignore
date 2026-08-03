@@ -16,3 +16,7 @@ Thumbs.db
 
 # Dados brutos temporarios de telemetria (nao commitar; so os processados entram)
 data/_raw/
+
+# Logs e artefatos de execucao local
+streamlit_run.log
+scratch/

@@ -142,7 +142,7 @@ def main() -> None:
     baseline = {}
     today = pd.Timestamp.today().normalize()
     cur_sy = hydro.display_season_year(today)
-    cur_start, cur_end = hydro.season_bounds(cur_sy)
+    cur_start, _ = hydro.season_bounds(cur_sy)
 
     print(f"Seed baseline | fonte: {RF}")
     print(f"Temporada corrente para semente: {cur_sy}/{cur_sy+1}")
@@ -183,8 +183,8 @@ def main() -> None:
             "envelope": envelope,
         }
 
-        # semente da temporada corrente (o que ja existe no historico)
-        cur = series[(series.index >= cur_start) & (series.index <= min(cur_end, today))]
+        # semente do buffer rolante (sem corte no fim -- ver fetch_telemetry.py)
+        cur = series[series.index >= cur_start]
         if not cur.empty:
             pd.DataFrame({"value": cur}).to_parquet(CUR_DIR / f"{code}.parquet")
 

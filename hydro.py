@@ -59,6 +59,12 @@ def season_slice(series: pd.Series, season_year: int) -> pd.Series:
     return series[(series.index >= start) & (series.index <= end)]
 
 
+def offseason_bounds(season_year: int) -> tuple[pd.Timestamp, pd.Timestamp]:
+    """Janela de entressafra logo apos o fim da temporada (1-jul a 30-set)."""
+    _, end = season_bounds(season_year)
+    return end + pd.Timedelta(days=1), pd.Timestamp(season_year + 1, 9, 30)
+
+
 def cei_curve(season_values: pd.Series, threshold: float) -> pd.Series:
     """Curva acumulada de excesso (CEI) ao longo da temporada.
 

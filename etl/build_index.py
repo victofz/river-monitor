@@ -1,11 +1,13 @@
 """
-build_index.py -- consolida baseline + temporada corrente em data/status.json.
+build_index.py -- consolida baseline + buffer rolante em data/status.json.
 
 Para cada estacao calcula, comparando SO com o proprio historico:
-  - CEI acumulado da temporada corrente
+  - status/valor/data da leitura mais recente -- sobre a serie BRUTA
+    (data/current/<code>.parquet), valido o ano todo, inclusive na
+    entressafra (jul-set), quando a temporada de risco esta fechada
+  - CEI acumulado -- sobre o recorte out-jun da temporada corrente;
+    fora da temporada, fica congelado no valor final da ultima temporada
   - rank percentil desse CEI vs. temporadas passadas da estacao
-  - status do valor diario mais recente (normal/elevado/alto/extremo)
-  - frescor do dado (dias desde a ultima leitura)
 
 Saida: data/status.json  (consumido pelo app.py)
 """
@@ -40,7 +42,6 @@ def main() -> None:
     baseline = json.loads((DATA / "baseline.json").read_text(encoding="utf-8"))
     today = pd.Timestamp.today().normalize()
     sy = hydro.display_season_year(today)
-    start, end = hydro.season_bounds(sy)
 
     stations_out = []
     counts = {k: 0 for k in hydro.STATUS_LABEL}
@@ -51,25 +52,35 @@ def main() -> None:
             continue
 
         cur_path = CUR_DIR / f"{code}.parquet"
-        cur = pd.Series(dtype=float)
+        full = pd.Series(dtype=float)
         if cur_path.exists():
-            cur = pd.read_parquet(cur_path)["value"]
-            cur.index = pd.to_datetime(cur.index)
-            cur = cur[(cur.index >= start) & (cur.index <= end)].sort_index()
+            full = pd.read_parquet(cur_path)["value"]
+            full.index = pd.to_datetime(full.index)
+            full = full.sort_index()
 
         threshold = info["threshold"]
-        if not cur.empty:
-            curve = hydro.cei_curve(cur, threshold)
-            cei_now = float(curve.iloc[-1]) if not curve.empty else 0.0
-            last_date = cur.index.max()
-            last_value = float(cur.iloc[-1])
+
+        # leitura mais recente: serie bruta (nao recortada) -- valida o ano
+        # todo, inclusive fora do periodo de risco
+        if not full.empty:
+            last_date = full.index.max()
+            last_value = float(full.iloc[-1])
             days_since = int((today - last_date.normalize()).days)
             status = hydro.daily_status(
                 last_value, info["p90"], info["p97"], info["p99"])
-            elapsed = int(hydro.season_day(pd.DatetimeIndex([last_date]), sy)[0])
         else:
-            cei_now, last_date, last_value = 0.0, None, None
-            days_since, status, elapsed = None, "sem_dado", None
+            last_date, last_value, days_since, status = None, None, None, "sem_dado"
+
+        # CEI: somente dentro do recorte out-jun -- fora da temporada, fica
+        # congelado no valor final da ultima temporada encerrada
+        season_view = hydro.season_slice(full, sy) if not full.empty else full
+        if not season_view.empty:
+            curve = hydro.cei_curve(season_view, threshold)
+            cei_now = float(curve.iloc[-1]) if not curve.empty else 0.0
+            elapsed = int(hydro.season_day(
+                pd.DatetimeIndex([season_view.index.max()]), sy)[0])
+        else:
+            cei_now, elapsed = 0.0, None
 
         counts[status] += 1
         stations_out.append({
