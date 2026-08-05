@@ -1,11 +1,11 @@
 """
 RS River Monitor -- pagina publica de monitoramento das estacoes ANA (RS).
 
-Cada estacao e comparada APENAS com o seu proprio historico:
-  - status do valor diario vs percentis P90/P97/P99 da propria estacao
-  - CEI (excesso acumulado) da temporada vs. temporadas passadas da estacao
+Cada estacao e comparada APENAS com o seu proprio historico. A temporada
+e um ciclo continuo de 12 meses (1-jul a 30-jun) -- sem gap/entressafra:
+jul-set e o inicio da propria temporada corrente.
 
-Os dados sao atualizados 1x/dia por um workflow do GitHub Actions
+Os dados sao atualizados por um workflow do GitHub Actions
 (etl/fetch_telemetry.py -> etl/build_index.py). O app apenas le os
 arquivos ja processados (data/status.json, data/baseline.json,
 data/current/*.parquet).
@@ -62,37 +62,32 @@ st.markdown(f"""
         letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px;
     }}
     .hero-title {{
-        font-family: {SERIF}; font-size: 2.6rem; line-height: 1.15;
+        font-family: {SERIF}; font-size: 2.5rem; line-height: 1.15;
         color: {INK}; font-weight: 700; margin: 0 0 14px 0;
     }}
     .hero-lead {{
-        font-size: 1.08rem; line-height: 1.65; color: {INK_SECOND};
-        max-width: 760px; margin-bottom: 4px;
+        font-size: 1.06rem; line-height: 1.65; color: {INK_SECOND};
+        max-width: 720px; margin-bottom: 4px;
     }}
-    .hero-rule {{ border: none; border-top: 3px solid {INK}; margin: 22px 0 26px 0; }}
+    .hero-lead b {{ color: {INK}; font-weight: 600; }}
+    .hero-rule {{ border: none; border-top: 3px solid {INK}; margin: 20px 0 24px 0; }}
 
-    /* ---- Corpo editorial (como funciona) ---- */
-    .lede {{
-        font-size: 1.0rem; line-height: 1.7; color: {INK_SECOND};
-        max-width: 760px;
-    }}
-    .step-num {{
-        font-family: {SERIF}; font-size: 1.6rem; color: {ACCENT};
-        font-weight: 700; line-height: 1;
-    }}
-    .step-title {{ font-weight: 700; color: {INK}; margin: 6px 0 4px 0; }}
-    .step-body {{ color: {INK_SECOND}; font-size: .92rem; line-height: 1.55; }}
-
-    /* ---- Metric tiles ---- */
+    /* ---- Metric tiles -- compactas, sem estourar/cortar texto ---- */
     [data-testid="stMetric"] {{
         background-color: {PANEL_BG}; border: 1px solid {BORDER};
-        border-radius: 3px; padding: 12px 16px;
+        border-radius: 3px; padding: 10px 14px; min-width: 0;
     }}
     [data-testid="stMetricLabel"] {{
-        color: {INK_MUTED}; font-size: .74rem; text-transform: uppercase;
-        letter-spacing: .04em;
+        color: {INK_MUTED}; font-size: .68rem; text-transform: uppercase;
+        letter-spacing: .03em; white-space: normal; line-height: 1.3;
     }}
-    [data-testid="stMetricValue"] {{ color: {INK}; font-family: {SANS}; }}
+    [data-testid="stMetricValue"] {{
+        color: {INK}; font-family: {SANS}; font-size: 1.22rem !important;
+        line-height: 1.25; white-space: normal; word-break: break-word;
+    }}
+    [data-testid="stMetricDelta"] {{
+        font-size: .74rem; white-space: normal; line-height: 1.3;
+    }}
 
     /* ---- Tabs ---- */
     .stTabs [data-baseweb="tab-list"] {{ gap: 4px; border-bottom: 1px solid {BORDER}; }}
@@ -107,8 +102,12 @@ st.markdown(f"""
         background-color: {PANEL_BG}; border: 1px solid {BORDER}; border-radius: 3px;
         padding: 10px 14px; color: {INK_MUTED}; font-size: .84rem; line-height: 1.5;
     }}
+    .status-chip {{
+        display: inline-block; padding: 3px 10px; border-radius: 3px;
+        font-size: .78rem; font-weight: 600; color: {PANEL_BG};
+    }}
     .foot {{ color: {INK_MUTED}; font-size: .8rem; line-height: 1.6; }}
-    hr.thin {{ border: none; border-top: 1px solid {BORDER}; margin: 30px 0; }}
+    hr.thin {{ border: none; border-top: 1px solid {BORDER}; margin: 26px 0; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -148,87 +147,60 @@ def styled(fig: go.Figure, height: int = 340) -> go.Figure:
     return fig
 
 
+def pick_default_code(df: pd.DataFrame) -> str:
+    """Estacao mais notavel agora, para abrir o detalhe ja com algo relevante."""
+    for stt in ("extremo", "alto", "elevado"):
+        sub = df[df["status"] == stt]
+        if not sub.empty:
+            return sub.iloc[0]["code"]
+    return df.sort_values("name").iloc[0]["code"]
+
+
 status = load_status()
 baseline = load_baseline()
 df = pd.DataFrame(status["stations"])
 n_alert = status["status_counts"].get("alto", 0) + status["status_counts"].get("extremo", 0)
 
 # ============================================================================
-# HERO -- pagina de apresentacao para um leitor publico
+# HERO -- foco no dado, uma pincelada leve sobre o indice
 # ============================================================================
 st.markdown('<div class="hero-kicker">Dados públicos · ANA HidroWeb</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-title">O pulso dos rios do<br>Rio Grande do Sul</div>',
             unsafe_allow_html=True)
-st.markdown(f"""
+st.markdown("""
 <p class="hero-lead">
-Um painel público e atualizado diariamente que acompanha <b>50 estações
-fluviométricas</b> da Agência Nacional de Águas (ANA) espalhadas pelo estado.
-Em vez de comparar rios entre si, cada estação é medida <b>contra o seu
-próprio histórico</b> — em alguns casos, quase um século de registros —
-para responder a uma pergunta simples: <i>este nível de água é normal para
-este rio, nesta época do ano?</i>
+Cinquenta estações fluviométricas da ANA, lidas todos os dias — <b>vazão e
+nível</b>, rio a rio. Cada estação é comparada apenas ao seu próprio
+histórico, que em algumas passa de oito décadas de registros, para mostrar
+se a leitura de hoje está alta, baixa ou dentro do esperado para esta
+época do ano.
 </p>
 """, unsafe_allow_html=True)
 st.markdown('<hr class="hero-rule">', unsafe_allow_html=True)
 
 # ============================================================================
-# Como funciona -- explicativo editorial
+# Retrato de hoje
 # ============================================================================
-st.markdown('<p class="lede">'
-    'O Rio Grande do Sul tem um dos registros hidrológicos mais longos do '
-    'Brasil, com estações que medem vazão e nível diariamente desde as '
-    'décadas de 1930-40. Este painel usa esse histórico para dar contexto '
-    'a cada leitura atual — sem comparar bacias diferentes entre si, que '
-    'têm escalas naturalmente distintas.</p>', unsafe_allow_html=True)
-
-s1, s2, s3 = st.columns(3)
-with s1:
-    st.markdown('<div class="step-num">01</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-title">Leitura diária</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-body">A cada dia, o painel busca as leituras mais '
-                'recentes de vazão ou nível direto da telemetria pública da ANA '
-                '(atualização a cada ~15 minutos).</div>', unsafe_allow_html=True)
-with s2:
-    st.markdown('<div class="step-num">02</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-title">Contexto histórico</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-body">Cada valor é comparado aos percentis '
-                'P90 / P97 / P99 <i>da própria estação</i> — o quanto ela '
-                'historicamente ultrapassa esses patamares no período chuvoso '
-                '(out–jun).</div>', unsafe_allow_html=True)
-with s3:
-    st.markdown('<div class="step-num">03</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-title">Índice acumulado (CEI)</div>', unsafe_allow_html=True)
-    st.markdown('<div class="step-body">Somando o excesso diário acima do limiar '
-                'histórico ao longo da temporada, obtemos o CEI — e o comparamos '
-                'ao CEI de todas as temporadas passadas daquela estação.</div>',
-                unsafe_allow_html=True)
-
-st.markdown('<hr class="thin">', unsafe_allow_html=True)
-
-# ============================================================================
-# Retrato atual
-# ============================================================================
-st.markdown("### Retrato de hoje")
-badge = "temporada ativa" if status["in_season"] else "entre temporadas"
-c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("Temporada de risco", status["season_label"], badge)
-c2.metric("Estações monitoradas", status["n_stations"])
-c3.metric("Dado fresco (≤2 dias)", status["n_fresh"])
-c4.metric("Estações em alerta", n_alert, "alto ou extremo")
-c5.metric("Última atualização", status["updated_utc"].split(" ")[0],
-          status["updated_utc"].split(" ", 1)[1])
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("Estações monitoradas", status["n_stations"], delta_color="off")
+c2.metric("Dado fresco (≤2 dias)", status["n_fresh"], f"de {status['n_stations']}", delta_color="off")
+c3.metric("Estações em alerta", n_alert, "alto ou extremo", delta_color="off")
+c4.metric("Última atualização", status["updated_utc"].split(" ")[0],
+          status["updated_utc"].split(" ", 1)[1], delta_color="off")
 
 st.write("")
 
 # ============================================================================
-# Exploracao dos dados
+# Explorar / Tabela
 # ============================================================================
-tab_map, tab_station, tab_table = st.tabs(["Mapa", "Estação", "Dados"])
+tab_explore, tab_table = st.tabs(["Explorar", "Tabela completa"])
 
 # --------------------------------------------------------------------------
-with tab_map:
-    mapdf = df.dropna(subset=["lat", "lon"]).copy()
+with tab_explore:
+    if "selected_code" not in st.session_state:
+        st.session_state.selected_code = pick_default_code(df)
 
+    mapdf = df.dropna(subset=["lat", "lon"]).copy()
     fig_map = go.Figure()
     for stt in ["normal", "elevado", "alto", "extremo", "sem_dado"]:
         sub = mapdf[mapdf["status"] == stt]
@@ -239,80 +211,105 @@ with tab_map:
             marker=dict(size=12, color=STATUS_COLORS[stt]),
             name=STATUS_LABEL[stt],
             text=sub["name"] + " — " + sub["river"].fillna(""),
-            customdata=sub[["last_value", "unit", "cei_pct_rank", "last_date"]].values,
-            hovertemplate="<b>%{text}</b><br>Última leitura: %{customdata[0]} %{customdata[1]}"
-                          "<br>CEI rank: %{customdata[2]}%<br>%{customdata[3]}<extra></extra>",
+            customdata=sub[["code", "last_value", "unit", "cei_pct_rank", "last_date"]].values,
+            hovertemplate="<b>%{text}</b><br>Última leitura: %{customdata[1]} %{customdata[2]}"
+                          "<br>CEI rank: %{customdata[3]}%<br>%{customdata[4]}<extra></extra>",
         ))
     fig_map.update_layout(
         map=dict(style="open-street-map", center=dict(lat=-29.7, lon=-53.2), zoom=5.3),
-        height=500, margin=dict(l=0, r=0, t=0, b=0),
+        height=460, margin=dict(l=0, r=0, t=0, b=0),
         paper_bgcolor=PANEL_BG, font=dict(family=SANS, color=INK),
         legend=dict(orientation="h", yanchor="top", y=0.99, x=0.01,
                     bgcolor="rgba(255,255,255,.9)", bordercolor=BORDER, borderwidth=1),
     )
-    st.plotly_chart(fig_map, width="stretch")
-    st.markdown(
-        '<div class="note-box">A cor indica o status do último valor diário frente '
-        'aos percentis <b>P90 / P97 / P99 da própria estação</b> — nunca comparado '
-        'a outra estação. Passe o cursor sobre um ponto para ver o rank do CEI na '
-        'temporada corrente.</div>', unsafe_allow_html=True)
 
-# --------------------------------------------------------------------------
-with tab_station:
-    labels = {f"{r['name']} ({r['code']}) — {r['river']}": r["code"]
-              for _, r in df.sort_values("name").iterrows()}
-    sel_label = st.selectbox("Escolha uma estação", list(labels.keys()))
-    code = labels[sel_label]
-    row = df[df["code"] == code].iloc[0]
-    info = baseline[code]
-    unit = info["unit"]
+    map_col, detail_col = st.columns([1, 1.1])
 
-    m1, m2, m3, m4 = st.columns(4)
-    lv = row["last_value"]
-    m1.metric("Última leitura", f"{lv:.1f} {unit}" if pd.notna(lv) else "—",
-              STATUS_LABEL[row["status"]])
-    m2.metric("Data / frescor", row["last_date"] or "—",
-              f"há {int(row['days_since'])}d" if pd.notna(row["days_since"]) else "sem dado")
-    m3.metric(f"CEI temporada {status['season_label']}", f"{row['cei_now']:.0f}",
-              f"percentil {row['cei_pct_rank']:.0f}% de {info['n_seasons']} temporadas")
-    m4.metric("Limiar P97 (própria estação)", f"{info['threshold']:.1f} {unit}")
+    with map_col:
+        st.caption("Clique num ponto do mapa para ver a série da estação →")
+        event = st.plotly_chart(fig_map, width="stretch", on_select="rerun",
+                                selection_mode="points", key="map_chart")
+        pts = (event or {}).get("selection", {}).get("points", [])
+        if pts:
+            clicked_code = pts[0].get("customdata", [None])[0]
+            if clicked_code:
+                st.session_state.selected_code = clicked_code
+        st.markdown(
+            '<div class="note-box">Cor = status da leitura mais recente frente aos '
+            'percentis <b>P90 / P97 / P99 da própria estação</b>.</div>',
+            unsafe_allow_html=True)
 
-    if not status["in_season"]:
-        st.caption(
-            "🟡 **Entressafra** — a temporada de risco (out–jun) está fechada; o CEI "
-            "acima ficou congelado no valor final da última temporada. A leitura e o "
-            "status já refletem o dado mais recente da estação, mesmo fora da janela."
-        )
+    with detail_col:
+        sorted_df = df.sort_values("name")
+        options = sorted_df["code"].tolist()
+        labels_map = dict(zip(sorted_df["code"],
+                               sorted_df["name"] + " — " + sorted_df["river"].fillna("")))
+        code = st.selectbox("Ou busque uma estação", options,
+                            format_func=lambda c: labels_map.get(c, c),
+                            key="selected_code")
 
+        row = df[df["code"] == code].iloc[0]
+        info = baseline[code]
+        unit = info["unit"]
+        idx_label = "Vazão" if info["data_type"] == "flow" else "Nível"
+
+        chip_color = STATUS_COLORS[row["status"]]
+        st.markdown(
+            f'<h3 style="margin:2px 0 0">{row["name"]}</h3>'
+            f'<p style="color:{INK_MUTED};font-size:.85rem;margin:2px 0 10px">'
+            f'{row["river"] or "—"} · {row["municipality"] or "—"} '
+            f'<span class="status-chip" style="background:{chip_color}">'
+            f'{STATUS_LABEL[row["status"]]}</span></p>',
+            unsafe_allow_html=True)
+
+        lv = row["last_value"]
+        m1, m2, m3 = st.columns(3)
+        m1.metric(f"Última leitura ({idx_label.lower()})",
+                  f"{lv:.1f} {unit}" if pd.notna(lv) else "—", delta_color="off")
+        m2.metric("Atualizado", "hoje" if row["days_since"] == 0
+                  else (f"há {int(row['days_since'])}d" if pd.notna(row["days_since"]) else "—"),
+                  row["last_date"] or "sem dado", delta_color="off")
+        m3.metric(f"CEI {status['season_label']}", f"{row['cei_now']:.0f}",
+                  f"percentil {row['cei_pct_rank']:.0f}%" if pd.notna(row["cei_pct_rank"]) else "—",
+                  delta_color="off")
+
+    # ---- Grafico em destaque: vazao/nivel, temporada atual x faixa historica ----
     st.write("")
+    st.markdown(f"**{idx_label} diária — temporada {status['season_label']} "
+               f"vs. faixa histórica ({info['n_seasons']} temporadas)**")
+
     cur = load_current(code)
-    season_start = hydro.season_bounds(status["season_year"])[0]
-    cur_extended = cur[cur.index >= season_start]          # inclui a cauda de entressafra
-    cur_season = hydro.season_slice(cur, status["season_year"])  # so out-jun, p/ o CEI
-    gcol1, gcol2 = st.columns(2)
+    season_start, _ = hydro.season_bounds(status["season_year"])
+    cur_extended = cur[cur.index >= season_start]
 
-    with gcol1:
-        st.markdown("**Série diária vs. percentis históricos** (temporada + entressafra)")
-        fig = go.Figure()
-        off_start, off_end = hydro.offseason_bounds(status["season_year"])
-        off_end = min(off_end, pd.Timestamp.today().normalize())
-        if off_end >= off_start:
-            fig.add_vrect(x0=off_start, x1=off_end, fillcolor=INK_MUTED, opacity=.12,
-                          line_width=0, annotation_text="entressafra",
-                          annotation_position="top left",
-                          annotation_font=dict(size=10, color=INK_MUTED))
-        if not cur_extended.empty:
-            fig.add_trace(go.Scatter(
-                x=cur_extended.index, y=cur_extended.values, mode="lines",
-                name="Leitura diária", line=dict(color=LINE_BLUE, width=2)))
-        for pname, color in [("p90", "#C99A56"), ("p97", "#C1652E"), ("p99", ACCENT)]:
-            fig.add_hline(y=info[pname], line=dict(color=color, dash="dash", width=1.2),
-                          annotation_text=pname.upper(), annotation_position="right")
-        fig.update_yaxes(title_text=f"Valor ({unit})")
-        st.plotly_chart(styled(fig), width="stretch")
+    venv = info.get("value_envelope", {})
+    fig = go.Figure()
+    if venv.get("max"):
+        env_dates = [season_start + pd.Timedelta(days=d) for d in range(hydro.SEASON_LEN_DAYS)]
+        fig.add_trace(go.Scatter(x=env_dates, y=venv["max"], mode="lines",
+                                 line=dict(width=0), showlegend=False, hoverinfo="skip"))
+        fig.add_trace(go.Scatter(x=env_dates, y=venv["min"], mode="lines",
+                                 name="Faixa histórica (mín–máx)", line=dict(width=0),
+                                 fill="tonexty", fillcolor="rgba(46,92,138,.13)",
+                                 hoverinfo="skip"))
+        fig.add_trace(go.Scatter(x=env_dates, y=venv["p50"], mode="lines",
+                                 name="Mediana histórica",
+                                 line=dict(color=INK_MUTED, width=1, dash="dot")))
+    for pname, color in [("p90", "#C99A56"), ("p97", "#C1652E"), ("p99", ACCENT)]:
+        fig.add_hline(y=info[pname], line=dict(color=color, dash="dash", width=1), opacity=.6,
+                      annotation_text=pname.upper(), annotation_font_size=9,
+                      annotation_position="right")
+    if not cur_extended.empty:
+        fig.add_trace(go.Scatter(x=cur_extended.index, y=cur_extended.values, mode="lines",
+                                 name=f"Temporada {status['season_label']}",
+                                 line=dict(color=LINE_BLUE, width=2.6)))
+        fig.add_trace(go.Scatter(x=[cur_extended.index[-1]], y=[cur_extended.values[-1]],
+                                 mode="markers", marker=dict(color=LINE_BLUE, size=9,
+                                 line=dict(color=PANEL_BG, width=1.5)), showlegend=False))
+    fig.update_yaxes(title_text=f"{idx_label} ({unit})")
+    st.plotly_chart(styled(fig, height=430), width="stretch")
 
-    with gcol2:
-        st.markdown("**CEI acumulado vs. envelope das temporadas passadas**")
+    with st.expander("Ver detalhe do índice acumulado (CEI)"):
         env = info["envelope"]
         days = list(range(hydro.SEASON_LEN_DAYS))
         fig2 = go.Figure()
@@ -326,13 +323,16 @@ with tab_station:
             fig2.add_trace(go.Scatter(x=days, y=env["p50"], mode="lines", name="Mediana",
                                       fill="tonexty", fillcolor="rgba(140,138,128,.12)",
                                       line=dict(color="rgba(120,118,110,.55)", width=1)))
+        cur_season = hydro.season_slice(cur, status["season_year"])
         if not cur_season.empty:
             curve = hydro.cei_curve(cur_season, info["threshold"])
             fig2.add_trace(go.Scatter(x=curve.index, y=curve.values, mode="lines",
                                       name="Temporada atual", line=dict(color=LINE_BLUE, width=2.2)))
-        fig2.update_xaxes(title_text="Dia da temporada (0 = 1-out)")
+        fig2.update_xaxes(title_text="Dia da temporada (0 = 1-jul)")
         fig2.update_yaxes(title_text="CEI acumulado")
-        st.plotly_chart(styled(fig2), width="stretch")
+        st.plotly_chart(styled(fig2, height=280), width="stretch")
+        st.caption("CEI = soma dos excessos diários acima do limiar histórico P97 da "
+                  "própria estação, acumulada ao longo da temporada.")
 
 # --------------------------------------------------------------------------
 with tab_table:
@@ -357,17 +357,22 @@ st.markdown('<hr class="thin">', unsafe_allow_html=True)
 with st.expander("Sobre a metodologia e as fontes"):
     st.markdown("""
 <div class="foot">
+<b>Temporada:</b> ciclo contínuo de 12 meses, 1º de julho a 30 de junho —
+sem intervalo entre temporadas.<br><br>
 <b>CEI (Cumulative Excess Index):</b> soma dos excessos diários acima do
-percentil P97 da própria estação, calculado apenas dentro do período de
-risco (1º de outubro a 30 de junho). Um CEI alto significa uma temporada
-com excedentes mais frequentes ou intensos que o normal <i>para aquele
-rio</i> — não é comparável entre estações de tamanhos diferentes.<br><br>
+percentil P97 da própria estação, acumulada ao longo da temporada. Um CEI
+alto significa uma temporada com excedentes mais frequentes ou intensos
+que o normal <i>para aquele rio</i> — não é comparável entre estações de
+tamanhos diferentes.<br><br>
+<b>Faixa histórica (mín–máx):</b> para cada dia da temporada, a menor e a
+maior leitura já registradas naquele dia específico, entre todas as
+temporadas com cobertura suficiente da estação.<br><br>
 <b>Fontes:</b> histórico diário via <a href="https://www.snirh.gov.br/hidroweb/">ANA HidroWeb</a>
 e telemetria em tempo (quase) real via o serviço SOAP público
 <code>DadosHidrometeorologicos</code> da ANA. Os dados são públicos e as
 estações somam, em conjunto, mais de 3.000 estações-ano de histórico.<br><br>
 <b>Atualização:</b> um job agendado (GitHub Actions) busca a telemetria
-diariamente, recalcula os índices e publica os resultados — sem
+periodicamente, recalcula os índices e publica os resultados — sem
 intervenção manual.
 </div>
 """, unsafe_allow_html=True)

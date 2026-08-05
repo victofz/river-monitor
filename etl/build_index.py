@@ -1,12 +1,13 @@
 """
 build_index.py -- consolida baseline + buffer rolante em data/status.json.
 
+A temporada e um ciclo continuo de 12 meses (1-jul a 30-jun) -- nao ha
+mais gap/entressafra: jul-set e o inicio da propria temporada corrente.
+
 Para cada estacao calcula, comparando SO com o proprio historico:
-  - status/valor/data da leitura mais recente -- sobre a serie BRUTA
-    (data/current/<code>.parquet), valido o ano todo, inclusive na
-    entressafra (jul-set), quando a temporada de risco esta fechada
-  - CEI acumulado -- sobre o recorte out-jun da temporada corrente;
-    fora da temporada, fica congelado no valor final da ultima temporada
+  - status/valor/data da leitura mais recente -- sobre a serie bruta
+    (data/current/<code>.parquet)
+  - CEI acumulado da temporada corrente (recorte 1-jul a 30-jun)
   - rank percentil desse CEI vs. temporadas passadas da estacao
 
 Saida: data/status.json  (consumido pelo app.py)
@@ -110,7 +111,6 @@ def main() -> None:
         "updated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "season_year": sy,
         "season_label": f"{sy}/{str(sy + 1)[-2:]}",
-        "in_season": hydro.is_in_season(today),
         "n_stations": len(stations_out),
         "n_fresh": fresh,
         "status_counts": counts,

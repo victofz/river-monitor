@@ -94,7 +94,6 @@ def main() -> None:
         "updatedUtc": status["updated_utc"],
         "seasonYear": status["season_year"],
         "seasonLabel": status["season_label"],
-        "inSeason": status["in_season"],
         "nStations": status["n_stations"],
         "nFresh": status["n_fresh"],
         "statusCounts": status["status_counts"],

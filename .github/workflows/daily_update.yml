@@ -1,8 +1,8 @@
-name: Atualizacao diaria dos dados ANA
+name: Atualizacao dos dados ANA
 
 on:
   schedule:
-    - cron: "0 9 * * *"      # todo dia 09:00 UTC (~06:00 BRT)
+    - cron: "0 * * * *"      # a cada hora, no minuto 0 (ANA atualiza a cada ~15 min)
   workflow_dispatch:          # permite rodar manualmente pela aba Actions
 
 # permite ao job commitar de volta no repositorio
@@ -43,6 +43,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "Sem mudancas nos dados."
           else
-            git commit -m "data: atualizacao $(date -u +'%Y-%m-%d')"
+            git commit -m "data: atualizacao $(date -u +'%Y-%m-%d %H:%M')"
             git push
           fi

@@ -5,16 +5,21 @@ Le o historico diario completo (ANA HidroWeb) de cada estacao e resume,
 para o REPO, tudo o que o dashboard precisa para comparar a temporada
 corrente com o proprio passado da estacao:
 
-  - limiar P97 e percentis P50/P90/P97/P99 dos valores diarios em periodo de risco
+  - limiar P97 e percentis P50/P90/P97/P99 dos valores diarios (serie
+    completa -- a temporada agora cobre o ano inteiro, 1-jul a 30-jun,
+    sem periodo "fora de risco")
   - distribuicao dos CEIs totais das temporadas passadas
-  - envelope (p50/p90/max) da curva acumulada de CEI ao longo da temporada
+  - envelope da curva acumulada de CEI (p50/p90/max) por dia-de-temporada
+  - envelope do VALOR bruto (vazao/nivel: min/p50/max) por dia-de-temporada
+    -- a faixa climatologica usada no grafico de destaque do dashboard
   - metadados (nome, rio, municipio, lat/lon, unidade)
 
-Fonte do historico: repositorio RIVERFLOW (parquets ANA ja consolidados).
-Aponte via env RIVERFLOW_DATA ou deixe o default ../RIVERFLOW/data.
+Fonte do historico: um diretorio local com os parquets ANA ja consolidados
+(baixados previamente do HidroWeb). Aponte via env ANA_SOURCE_DATA ou
+deixe o default ../ana-data.
 
 Saida: data/baseline.json  (commitado -> repo fica auto-suficiente)
-       data/current/<code>.parquet  (semente da temporada corrente)
+       data/current/<code>.parquet  (semente do buffer rolante)
 """
 from __future__ import annotations
 
@@ -31,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import hydro  # noqa: E402
 from stations import STATIONS  # noqa: E402
 
-RF = Path(os.environ.get("RIVERFLOW_DATA", "../RIVERFLOW/data")).resolve()
+RF = Path(os.environ.get("ANA_SOURCE_DATA", "../ana-data")).resolve()
 FLOW_DIR = RF / "ana"
 COTA_DIR = RF / "water_level"
 INV_JSON = FLOW_DIR / "rs_api_inventory.json"
@@ -43,7 +48,7 @@ CUR_DIR = OUT / "current"
 OUT.mkdir(exist_ok=True)
 CUR_DIR.mkdir(parents=True, exist_ok=True)
 
-MIN_COVERAGE_DAYS = 180  # temporada so conta se tiver >=180 dias em risco
+MIN_COVERAGE_DAYS = 240  # temporada so conta se tiver cobertura >~65% do ano
 
 
 def clean_name(s: str) -> str:
@@ -103,22 +108,33 @@ def load_series(code: str) -> tuple[pd.Series, str, str]:
     return s, dtype, unit
 
 
-def seasonal_curves(series: pd.Series, threshold: float) -> dict[int, pd.Series]:
-    """Curva de CEI (dia 0..272) para cada temporada com cobertura suficiente."""
-    curves = {}
+def seasonal_data(series: pd.Series, threshold: float):
+    """Para cada temporada com cobertura suficiente: curva de CEI (dia 0..365)
+    e o valor bruto alinhado por dia-de-temporada (para o envelope min/max)."""
+    idx = np.arange(hydro.SEASON_LEN_DAYS)
+    cei_curves: dict[int, pd.Series] = {}
+    value_rows: list[np.ndarray] = []
     years = range(series.index.year.min() - 1, series.index.year.max() + 1)
     for sy in years:
         seg = hydro.season_slice(series, sy)
         if len(seg) < MIN_COVERAGE_DAYS:
             continue
         curve = hydro.cei_curve(seg, threshold)
-        if not curve.empty:
-            curves[sy] = curve
-    return curves
+        if curve.empty:
+            continue
+        cei_curves[sy] = curve
+
+        days = hydro.season_day(seg.index, sy)
+        raw = pd.Series(seg.values, index=days)
+        raw = raw[(raw.index >= 0) & (raw.index < hydro.SEASON_LEN_DAYS)]
+        # sem ffill aqui: dia sem leitura fica NaN e e ignorado no min/max
+        # (ffill faria sentido para uma serie acumulada, nao para o valor bruto)
+        value_rows.append(raw.reindex(idx).to_numpy(dtype=float))
+    return cei_curves, value_rows
 
 
-def build_envelope(curves: dict[int, pd.Series]) -> dict:
-    """Matriz dia x temporada -> percentis p50/p90/max por dia da temporada."""
+def build_cei_envelope(curves: dict[int, pd.Series]) -> dict:
+    """Matriz dia x temporada (CEI acumulado) -> percentis p50/p90/max."""
     if not curves:
         return {"p50": [], "p90": [], "max": []}
     idx = np.arange(hydro.SEASON_LEN_DAYS)
@@ -133,10 +149,26 @@ def build_envelope(curves: dict[int, pd.Series]) -> dict:
     }
 
 
+def build_value_envelope(value_rows: list[np.ndarray]) -> dict:
+    """Matriz dia x temporada (valor bruto) -> faixa climatologica min/p50/max."""
+    if not value_rows:
+        return {"min": [], "p50": [], "max": []}
+    mat = np.vstack(value_rows)
+    with np.errstate(all="ignore"):
+        vmin = np.nanmin(mat, axis=0)
+        vp50 = np.nanmedian(mat, axis=0)
+        vmax = np.nanmax(mat, axis=0)
+    # dias sem NENHUMA temporada com dado viram NaN -> None (json null)
+    def clean(arr):
+        return [None if np.isnan(v) else round(float(v), 2) for v in arr]
+    return {"min": clean(vmin), "p50": clean(vp50), "max": clean(vmax)}
+
+
 def main() -> None:
     if not FLOW_DIR.exists():
-        sys.exit(f"RIVERFLOW data nao encontrado em {RF}. "
-                 f"Defina RIVERFLOW_DATA apontando para .../RIVERFLOW/data")
+        sys.exit(f"Dados nao encontrados em {RF}. "
+                 f"Defina ANA_SOURCE_DATA apontando para um diretorio com "
+                 f"os parquets ANA (subpastas ana/ e water_level/).")
 
     meta = load_meta()
     baseline = {}
@@ -154,18 +186,14 @@ def main() -> None:
             print(f"[{i:2d}/50] {code}  SEM DADOS -- pulado")
             continue
 
-        inseason = hydro.in_season(series)
-        if inseason.empty:
-            print(f"[{i:2d}/50] {code}  sem dados em periodo de risco -- pulado")
-            continue
-
         p50, p90, p97, p99 = np.percentile(
-            inseason.values, [50, 90, hydro.THRESHOLD_PCT, 99])
+            series.values, [50, 90, hydro.THRESHOLD_PCT, 99])
         threshold = float(p97)
 
-        curves = seasonal_curves(series, threshold)
-        totals = sorted(float(c.iloc[-1]) for c in curves.values())
-        envelope = build_envelope(curves)
+        cei_curves, value_rows = seasonal_data(series, threshold)
+        totals = sorted(float(c.iloc[-1]) for c in cei_curves.values())
+        cei_envelope = build_cei_envelope(cei_curves)
+        value_envelope = build_value_envelope(value_rows)
 
         baseline[code] = {
             **meta[code],
@@ -178,9 +206,10 @@ def main() -> None:
             "p99": round(float(p99), 3),
             "record_start": str(series.index.min().date()),
             "record_end": str(series.index.max().date()),
-            "n_seasons": len(curves),
+            "n_seasons": len(cei_curves),
             "seasonal_totals": [round(t, 2) for t in totals],
-            "envelope": envelope,
+            "envelope": cei_envelope,
+            "value_envelope": value_envelope,
         }
 
         # semente do buffer rolante (sem corte no fim -- ver fetch_telemetry.py)
@@ -189,7 +218,7 @@ def main() -> None:
             pd.DataFrame({"value": cur}).to_parquet(CUR_DIR / f"{code}.parquet")
 
         print(f"[{i:2d}/50] {code}  {baseline[code]['name'][:22]:22s} "
-              f"{dtype:5s} P97={threshold:8.1f} temporadas={len(curves):2d} "
+              f"{dtype:5s} P97={threshold:8.1f} temporadas={len(cei_curves):2d} "
               f"seed={len(cur)}d")
 
     (OUT / "baseline.json").write_text(
