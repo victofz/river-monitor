@@ -3,7 +3,7 @@
  "season_year": 2026,
  "season_label": "2026/27",
  "n_stations": 50,
- "n_fresh": 42,
+ "n_fresh": 22,
  "status_counts": {
   "normal": 27,
   "elevado": 13,
@@ -1107,7 +1107,7 @@
    "last_date": "2026-08-05",
    "last_value": 317.12,
    "days_since": 0,
-   "status": "normal",
+   "status": "elevado",
    "cei_now": 0.0,
    "cei_pct_rank": 9.1,
    "season_day": 35
