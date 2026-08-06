@@ -214,6 +214,11 @@ def pick_default_code(df: pd.DataFrame) -> str:
 status = load_status()
 baseline = load_baseline()
 df = pd.DataFrame(status["stations"])
+# status.json e baseline.json sao escritos por jobs diferentes (bot horario
+# vs. seed manual) e podem, por uma janela curta durante um redeploy, ficar
+# fora de sincronia -- filtra aqui, na fronteira entre os dois, para nunca
+# quebrar mais adiante (inclusive se baseline vier de um esquema antigo).
+df = df[df["code"].map(lambda c: bool(baseline.get(c, {}).get("metrics")))].reset_index(drop=True)
 n_alert = status["status_counts"].get("alto", 0) + status["status_counts"].get("extremo", 0)
 
 # ============================================================================
