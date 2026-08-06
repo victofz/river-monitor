@@ -62,6 +62,21 @@ def cei_curve(season_values: pd.Series, threshold: float) -> pd.Series:
     return cum[(cum.index >= 0) & (cum.index < SEASON_LEN_DAYS)]
 
 
+def cei_from_aligned(values: list, threshold: float) -> list[float]:
+    """CEI acumulado a partir de um array ja alinhado por dia-de-temporada
+    (posicao i = dia i; None/NaN = sem leitura naquele dia -- mantem o
+    acumulado do dia anterior, nao reseta). Usado para safras congeladas
+    (guardadas em baseline.json), sem precisar de um DatetimeIndex real.
+    """
+    cum = 0.0
+    out = []
+    for v in values:
+        if v is not None and not (isinstance(v, float) and pd.isna(v)):
+            cum += max(float(v) - threshold, 0.0)
+        out.append(cum)
+    return out
+
+
 def daily_status(value: float, p90: float, p97: float, p99: float) -> str:
     """Classifica um valor diario contra os percentis da propria estacao."""
     if value is None or pd.isna(value):

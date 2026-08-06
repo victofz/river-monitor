@@ -28,11 +28,14 @@ OUT = ROOT / "scratch"
 OUT.mkdir(exist_ok=True)
 
 
-def season_series(code: str, season_year: int) -> list[list[float]]:
+def season_series(code: str, metric: str, season_year: int) -> list[list[float]]:
     p = DATA / "current" / f"{code}.parquet"
     if not p.exists():
         return []
-    s = pd.read_parquet(p)["value"]
+    df = pd.read_parquet(p)
+    if metric not in df.columns:
+        return []
+    s = df[metric].dropna()
     s.index = pd.to_datetime(s.index)
     s = hydro.season_slice(s, season_year).sort_index()
     if s.empty:
@@ -56,9 +59,11 @@ def main() -> None:
         bl = baseline.get(code)
         if not st or not bl:
             continue
+        primary = bl["primary_metric"]
+        m = bl["metrics"][primary]
         # precisao de arredondamento por unidade (m3/s tende a ter mais digitos)
-        nd = 1 if bl["unit"] == "cm" else 1
-        env = bl["envelope"]
+        nd = 1 if m["unit"] == "cm" else 1
+        env = m["envelope"]
         stations_out.append({
             "code": code,
             "name": st["name"],
@@ -68,12 +73,12 @@ def main() -> None:
             "lon": st["lon"],
             "dataType": st["data_type"],
             "unit": st["unit"],
-            "threshold": bl["threshold"],
-            "p50": bl["p50"],
+            "threshold": m["threshold"],
+            "p50": m["p50"],
             "p90": st["p90"],
             "p97": st["p97"],
             "p99": st["p99"],
-            "recordStart": bl["record_start"],
+            "recordStart": m["record_start"],
             "nSeasons": st["n_seasons"],
             "status": st["status"],
             "lastDate": st["last_date"],
@@ -82,7 +87,7 @@ def main() -> None:
             "ceiNow": st["cei_now"],
             "ceiPctRank": st["cei_pct_rank"],
             "seasonDay": st["season_day"],
-            "season": season_series(code, status["season_year"]),
+            "season": season_series(code, primary, status["season_year"]),
             "envelope": {
                 "p50": round_env(env["p50"], nd),
                 "p90": round_env(env["p90"], nd),

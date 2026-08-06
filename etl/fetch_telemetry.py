@@ -1,12 +1,11 @@
 """
-fetch_telemetry.py -- busca telemetria em tempo real da ANA (roda 1x/dia).
+fetch_telemetry.py -- busca telemetria em tempo real da ANA (roda de hora em hora).
 
-Baixa as leituras sub-diarias (~15 min) das 50 estacoes via SOAP,
-agrega para media diaria e atualiza data/current/<code>.parquet -- um
-buffer rolante (ultimos KEEP_DAYS dias), NAO recortado por temporada.
-O recorte out-jun (para o CEI) e feito na leitura, em build_index.py e
-app.py -- assim a leitura mais recente fica sempre disponivel mesmo na
-entressafra (jul-set), quando a temporada de risco esta fechada.
+Baixa as leituras sub-diarias (~15 min) das 50 estacoes via SOAP, agrega
+para media diaria e atualiza data/current/<code>.parquet -- um buffer
+rolante (ultimos KEEP_DAYS dias) com colunas "flow" e/ou "level" (o que
+a estacao transmitir), NAO recortado por temporada. O recorte 1-jul a
+30-jun (para o CEI) e feito na leitura, em build_index.py e app.py.
 
 Robusto por design:
   - falha por estacao nao derruba o job;
@@ -18,14 +17,13 @@ from __future__ import annotations
 import sys
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pandas as pd
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-import hydro  # noqa: E402
 from stations import STATIONS  # noqa: E402
 
 SOAP_URL = "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicos"
@@ -35,8 +33,8 @@ CUR_DIR = Path(__file__).resolve().parent.parent / "data" / "current"
 CUR_DIR.mkdir(parents=True, exist_ok=True)
 
 LOOKBACK_DAYS = 45          # janela buscada a cada rodada
-KEEP_DAYS = 450             # buffer rolante guardado no parquet (~15 meses)
-MIN_SUCCESS_FRACTION = 0.5  # < isto => aborta sem commit
+KEEP_DAYS = 450              # buffer rolante guardado no parquet (~15 meses)
+MIN_SUCCESS_FRACTION = 0.5   # < isto => aborta sem commit
 
 
 def fetch(code: str, start: str, end: str) -> pd.DataFrame:
@@ -50,71 +48,78 @@ def fetch(code: str, start: str, end: str) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def to_daily(df: pd.DataFrame, data_type: str) -> pd.Series:
-    """Agrega telemetria bruta para serie diaria (media) do tipo relevante."""
+def to_daily(df: pd.DataFrame) -> pd.DataFrame:
+    """Agrega telemetria bruta para serie diaria (media), colunas flow/level
+    -- as duas que existirem na resposta."""
     if df.empty or "DataHora" not in df.columns:
-        return pd.Series(dtype=float)
+        return pd.DataFrame()
     df = df.copy()
     df["datetime"] = pd.to_datetime(df["DataHora"], errors="coerce")
     df = df.dropna(subset=["datetime"]).set_index("datetime").sort_index()
-    col = "Vazao" if data_type == "flow" else "Nivel"
-    if col not in df.columns:
-        return pd.Series(dtype=float)
-    vals = pd.to_numeric(df[col], errors="coerce")
-    daily = vals.resample("D").mean().dropna()
-    daily.index.name = "date"
-    return daily
+
+    cols = {}
+    if "Vazao" in df.columns:
+        vals = pd.to_numeric(df["Vazao"], errors="coerce")
+        daily = vals.resample("D").mean().dropna()
+        if not daily.empty:
+            cols["flow"] = daily
+    if "Nivel" in df.columns:
+        vals = pd.to_numeric(df["Nivel"], errors="coerce")
+        daily = vals.resample("D").mean().dropna()
+        if not daily.empty:
+            cols["level"] = daily
+
+    if not cols:
+        return pd.DataFrame()
+    out = pd.DataFrame(cols)
+    out.index.name = "date"
+    return out
 
 
-def data_type_of(code: str) -> str:
-    """Le o tipo (flow/level) do baseline; default flow."""
-    import json
-    bl = Path(__file__).resolve().parent.parent / "data" / "baseline.json"
-    if bl.exists():
-        info = json.loads(bl.read_text(encoding="utf-8")).get(code, {})
-        return info.get("data_type", "flow")
-    return "flow"
-
-
-def merge_current(code: str, new_daily: pd.Series) -> int:
-    """Funde novos dias no buffer rolante. Retorna nro de dias novos."""
+def merge_current(code: str, new_daily: pd.DataFrame) -> int:
+    """Funde novos dias no buffer rolante (colunas flow/level). Retorna
+    numero de linhas novas (dias com pelo menos uma leitura nova)."""
     if new_daily.empty:
         return 0
     path = CUR_DIR / f"{code}.parquet"
     if path.exists():
-        old = pd.read_parquet(path)["value"]
+        old = pd.read_parquet(path)
         old.index = pd.to_datetime(old.index)
     else:
-        old = pd.Series(dtype=float)
-    added = new_daily.index.difference(old.index)
+        old = pd.DataFrame()
+
+    added = new_daily.index.difference(old.index) if not old.empty else new_daily.index
+    all_cols = sorted(set(old.columns) | set(new_daily.columns))
+    old = old.reindex(columns=all_cols)
+    new_daily = new_daily.reindex(columns=all_cols)
+
     merged = pd.concat([old, new_daily])
     merged = merged[~merged.index.duplicated(keep="last")].sort_index()
     cutoff = merged.index.max() - pd.Timedelta(days=KEEP_DAYS)
     merged = merged[merged.index >= cutoff]
-    pd.DataFrame({"value": merged}).to_parquet(path)
+    merged.to_parquet(path)
     return len(added)
 
 
 def main() -> None:
-    today = datetime.utcnow().date()
+    today = datetime.now(timezone.utc).date()
     start = (today - timedelta(days=LOOKBACK_DAYS)).strftime("%Y-%m-%d")
     end = today.strftime("%Y-%m-%d")
-    season_year = hydro.display_season_year(pd.Timestamp(today))
 
-    print(f"Telemetria ANA | janela {start}..{end} | temporada {season_year}")
+    print(f"Telemetria ANA | janela {start}..{end}")
     print("=" * 60)
 
     ok, total_added = 0, 0
     for i, code in enumerate(STATIONS, 1):
-        dtype = data_type_of(code)
         try:
             raw = fetch(code, start, end)
-            daily = to_daily(raw, dtype)
+            daily = to_daily(raw)
             added = merge_current(code, daily)
             ok += 1
             total_added += added
+            cols = "+".join(daily.columns) if not daily.empty else "-"
             last = daily.index.max().date() if not daily.empty else "-"
-            print(f"[{i:2d}/50] {code}  +{added:3d} dias (ultimo {last})")
+            print(f"[{i:2d}/50] {code}  +{added:3d} dias [{cols}] (ultimo {last})")
         except Exception as e:  # noqa: BLE001
             print(f"[{i:2d}/50] {code}  ERRO: {e}")
         time.sleep(0.4)

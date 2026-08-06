@@ -4,6 +4,11 @@ build_index.py -- consolida baseline + buffer rolante em data/status.json.
 A temporada e um ciclo continuo de 12 meses (1-jul a 30-jun) -- nao ha
 mais gap/entressafra: jul-set e o inicio da propria temporada corrente.
 
+status.json reflete sempre a METRICA PRIMARIA de cada estacao (vazao,
+quando disponivel; senao nivel) -- e o que orienta o mapa/tabela. O
+app.py le data/current/<code>.parquet e data/baseline.json diretamente
+para a metrica secundaria e o seletor de safra.
+
 Para cada estacao calcula, comparando SO com o proprio historico:
   - status/valor/data da leitura mais recente -- sobre a serie bruta
     (data/current/<code>.parquet)
@@ -48,16 +53,20 @@ def main() -> None:
     counts = {k: 0 for k in hydro.STATUS_LABEL}
 
     for code in STATIONS:
-        info = baseline.get(code)
-        if not info:
+        station = baseline.get(code)
+        if not station:
             continue
+        primary = station["primary_metric"]
+        info = station["metrics"][primary]
 
         cur_path = CUR_DIR / f"{code}.parquet"
         full = pd.Series(dtype=float)
         if cur_path.exists():
-            full = pd.read_parquet(cur_path)["value"]
-            full.index = pd.to_datetime(full.index)
-            full = full.sort_index()
+            cur_df = pd.read_parquet(cur_path)
+            if primary in cur_df.columns:
+                full = cur_df[primary].dropna()
+                full.index = pd.to_datetime(full.index)
+                full = full.sort_index()
 
         threshold = info["threshold"]
 
@@ -86,12 +95,13 @@ def main() -> None:
         counts[status] += 1
         stations_out.append({
             "code": code,
-            "name": info["name"],
-            "river": info["river"],
-            "municipality": info["municipality"],
-            "lat": info["lat"],
-            "lon": info["lon"],
-            "data_type": info["data_type"],
+            "name": station["name"],
+            "river": station["river"],
+            "municipality": station["municipality"],
+            "lat": station["lat"],
+            "lon": station["lon"],
+            "data_type": primary,
+            "has_second_metric": len(station["metrics"]) > 1,
             "unit": info["unit"],
             "threshold": threshold,
             "p90": info["p90"], "p97": info["p97"], "p99": info["p99"],

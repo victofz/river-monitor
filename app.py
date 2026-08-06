@@ -126,13 +126,68 @@ def load_baseline() -> dict:
 
 
 @st.cache_data
-def load_current(code: str) -> pd.Series:
+def load_current(code: str) -> pd.DataFrame:
+    """Buffer rolante da estacao -- colunas 'flow' e/ou 'level'."""
     p = DATA / "current" / f"{code}.parquet"
     if not p.exists():
-        return pd.Series(dtype=float)
-    s = pd.read_parquet(p)["value"]
-    s.index = pd.to_datetime(s.index)
-    return s.sort_index()
+        return pd.DataFrame()
+    df = pd.read_parquet(p)
+    df.index = pd.to_datetime(df.index)
+    return df.sort_index()
+
+
+METRIC_LABEL = {"flow": "Vazão", "level": "Nível"}
+
+
+def pct_rank(value: float, distribution: list[float]) -> float:
+    if not distribution:
+        return float("nan")
+    arr = pd.array(distribution, dtype=float)
+    return float((arr <= value).mean() * 100.0)
+
+
+def season_display(metric: str, season_choice: str, info: dict,
+                    live_df: pd.DataFrame, cur_season_year: int):
+    """Dados da curva 'destacada' no grafico -- temporada atual (buffer ao
+    vivo) ou uma safra congelada (baseline.json) -- e metricas derivadas.
+
+    Retorna dict com: days, values, label, is_current, last_value,
+    last_date, days_since, cei_now, cei_pct_rank.
+    """
+    threshold = info["threshold"]
+    if season_choice == "current":
+        s = live_df[metric].dropna() if metric in live_df.columns else pd.Series(dtype=float)
+        s = hydro.season_slice(s, cur_season_year)
+        if s.empty:
+            days, values = [], []
+            last_value = last_date = days_since = None
+        else:
+            days = hydro.season_day(s.index, cur_season_year).tolist()
+            values = s.values.tolist()
+            last_date = s.index.max()
+            last_value = float(s.iloc[-1])
+            days_since = int((pd.Timestamp.today().normalize() - last_date.normalize()).days)
+        curve = hydro.cei_curve(s, threshold) if not s.empty else pd.Series(dtype=float)
+        cei_now = float(curve.iloc[-1]) if not curve.empty else 0.0
+        label = "Temporada atual"
+    else:
+        sy = int(season_choice)
+        arr = info.get("seasons", {}).get(season_choice, [])
+        days = [i for i, v in enumerate(arr) if v is not None]
+        values = [v for i, v in enumerate(arr) if v is not None]
+        last_value = values[-1] if values else None
+        last_date, days_since = None, None
+        cei_series = hydro.cei_from_aligned(arr, threshold)
+        cei_now = cei_series[-1] if cei_series else 0.0
+        label = f"Temporada {sy}/{str(sy + 1)[-2:]}"
+
+    return {
+        "days": days, "values": values, "label": label,
+        "is_current": season_choice == "current",
+        "last_value": last_value, "last_date": last_date, "days_since": days_since,
+        "cei_now": cei_now,
+        "cei_pct_rank": pct_rank(cei_now, info.get("seasonal_totals", [])),
+    }
 
 
 def styled(fig: go.Figure, height: int = 340) -> go.Figure:
@@ -199,6 +254,10 @@ tab_explore, tab_table = st.tabs(["Explorar", "Tabela completa"])
 with tab_explore:
     if "selected_code" not in st.session_state:
         st.session_state.selected_code = pick_default_code(df)
+    if "selected_metric" not in st.session_state:
+        st.session_state.selected_metric = None  # resolvido por estacao, abaixo
+    if "selected_season" not in st.session_state:
+        st.session_state.selected_season = "current"
 
     mapdf = df.dropna(subset=["lat", "lon"]).copy()
     fig_map = go.Figure()
@@ -249,9 +308,8 @@ with tab_explore:
                             key="selected_code")
 
         row = df[df["code"] == code].iloc[0]
-        info = baseline[code]
-        unit = info["unit"]
-        idx_label = "Vazão" if info["data_type"] == "flow" else "Nível"
+        station = baseline[code]
+        available_metrics = list(station["metrics"].keys())
 
         chip_color = STATUS_COLORS[row["status"]]
         st.markdown(
@@ -262,72 +320,110 @@ with tab_explore:
             f'{STATUS_LABEL[row["status"]]}</span></p>',
             unsafe_allow_html=True)
 
-        lv = row["last_value"]
+        ctrl1, ctrl2 = st.columns([1, 1.3])
+        with ctrl1:
+            if len(available_metrics) > 1:
+                metric = st.segmented_control(
+                    "Métrica", available_metrics, default=station["primary_metric"],
+                    format_func=lambda m: METRIC_LABEL[m], key=f"metric_{code}")
+                metric = metric or station["primary_metric"]
+            else:
+                metric = available_metrics[0]
+                st.caption(f"Métrica: **{METRIC_LABEL[metric]}** (única disponível)")
+        info = station["metrics"][metric]
+
+        with ctrl2:
+            season_opts = ["current"] + sorted(info.get("seasons", {}).keys(), reverse=True)
+            season_fmt = {"current": f"{status['season_label']} (atual)"}
+            for sy_str in season_opts[1:]:
+                sy = int(sy_str)
+                season_fmt[sy_str] = f"{sy}/{str(sy + 1)[-2:]}"
+            season_choice = st.selectbox(
+                "Safra", season_opts, format_func=lambda s: season_fmt[s],
+                key=f"season_{code}_{metric}")
+
+        disp = season_display(metric, season_choice, info,
+                              load_current(code), status["season_year"])
+
         m1, m2, m3 = st.columns(3)
-        m1.metric(f"Última leitura ({idx_label.lower()})",
-                  f"{lv:.1f} {unit}" if pd.notna(lv) else "—", delta_color="off")
-        m2.metric("Atualizado", "hoje" if row["days_since"] == 0
-                  else (f"há {int(row['days_since'])}d" if pd.notna(row["days_since"]) else "—"),
-                  row["last_date"] or "sem dado", delta_color="off")
-        m3.metric(f"CEI {status['season_label']}", f"{row['cei_now']:.0f}",
-                  f"percentil {row['cei_pct_rank']:.0f}%" if pd.notna(row["cei_pct_rank"]) else "—",
-                  delta_color="off")
+        if disp["is_current"]:
+            lv = disp["last_value"]
+            m1.metric(f"Última leitura ({METRIC_LABEL[metric].lower()})",
+                      f"{lv:.1f} {info['unit']}" if lv is not None else "—", delta_color="off")
+            ds = disp["days_since"]
+            m2.metric("Atualizado", "hoje" if ds == 0 else (f"há {ds}d" if ds is not None else "—"),
+                      str(disp["last_date"].date()) if disp["last_date"] is not None else "sem dado",
+                      delta_color="off")
+            m3.metric(f"CEI {season_fmt['current']}", f"{disp['cei_now']:.0f}",
+                      f"percentil {disp['cei_pct_rank']:.0f}%"
+                      if pd.notna(disp["cei_pct_rank"]) else "—", delta_color="off")
+        else:
+            mx = max(disp["values"]) if disp["values"] else None
+            m1.metric(f"Máximo na safra ({METRIC_LABEL[metric].lower()})",
+                      f"{mx:.1f} {info['unit']}" if mx is not None else "—", delta_color="off")
+            m2.metric("CEI final da safra", f"{disp['cei_now']:.0f}", delta_color="off")
+            m3.metric("Percentil vs. histórico", f"{disp['cei_pct_rank']:.0f}%"
+                      if pd.notna(disp["cei_pct_rank"]) else "—", delta_color="off")
 
-    # ---- Grafico em destaque: vazao/nivel, temporada atual x faixa historica ----
+    # ---- Grafico em destaque: vazao/nivel, safra escolhida x faixa historica ----
     st.write("")
-    st.markdown(f"**{idx_label} diária — temporada {status['season_label']} "
+    st.markdown(f"**{METRIC_LABEL[metric]} diária — {disp['label']} "
                f"vs. faixa histórica ({info['n_seasons']} temporadas)**")
-
-    cur = load_current(code)
-    season_start, _ = hydro.season_bounds(status["season_year"])
-    cur_extended = cur[cur.index >= season_start]
 
     venv = info.get("value_envelope", {})
     fig = go.Figure()
+    days_axis = list(range(hydro.SEASON_LEN_DAYS))
     if venv.get("max"):
-        env_dates = [season_start + pd.Timedelta(days=d) for d in range(hydro.SEASON_LEN_DAYS)]
-        fig.add_trace(go.Scatter(x=env_dates, y=venv["max"], mode="lines",
+        fig.add_trace(go.Scatter(x=days_axis, y=venv["max"], mode="lines",
                                  line=dict(width=0), showlegend=False, hoverinfo="skip"))
-        fig.add_trace(go.Scatter(x=env_dates, y=venv["min"], mode="lines",
+        fig.add_trace(go.Scatter(x=days_axis, y=venv["min"], mode="lines",
                                  name="Faixa histórica (mín–máx)", line=dict(width=0),
                                  fill="tonexty", fillcolor="rgba(46,92,138,.13)",
                                  hoverinfo="skip"))
-        fig.add_trace(go.Scatter(x=env_dates, y=venv["p50"], mode="lines",
+        fig.add_trace(go.Scatter(x=days_axis, y=venv["p50"], mode="lines",
                                  name="Mediana histórica",
                                  line=dict(color=INK_MUTED, width=1, dash="dot")))
     for pname, color in [("p90", "#C99A56"), ("p97", "#C1652E"), ("p99", ACCENT)]:
         fig.add_hline(y=info[pname], line=dict(color=color, dash="dash", width=1), opacity=.6,
                       annotation_text=pname.upper(), annotation_font_size=9,
                       annotation_position="right")
-    if not cur_extended.empty:
-        fig.add_trace(go.Scatter(x=cur_extended.index, y=cur_extended.values, mode="lines",
-                                 name=f"Temporada {status['season_label']}",
-                                 line=dict(color=LINE_BLUE, width=2.6)))
-        fig.add_trace(go.Scatter(x=[cur_extended.index[-1]], y=[cur_extended.values[-1]],
+    if disp["values"]:
+        fig.add_trace(go.Scatter(x=disp["days"], y=disp["values"], mode="lines",
+                                 name=disp["label"], line=dict(color=LINE_BLUE, width=2.6)))
+        fig.add_trace(go.Scatter(x=[disp["days"][-1]], y=[disp["values"][-1]],
                                  mode="markers", marker=dict(color=LINE_BLUE, size=9,
                                  line=dict(color=PANEL_BG, width=1.5)), showlegend=False))
-    fig.update_yaxes(title_text=f"{idx_label} ({unit})")
+    fig.update_xaxes(title_text="Dia da temporada (0 = 1-jul)")
+    fig.update_yaxes(title_text=f"{METRIC_LABEL[metric]} ({info['unit']})")
     st.plotly_chart(styled(fig, height=430), width="stretch")
 
     with st.expander("Ver detalhe do índice acumulado (CEI)"):
         env = info["envelope"]
-        days = list(range(hydro.SEASON_LEN_DAYS))
+        env_days = list(range(hydro.SEASON_LEN_DAYS))
         fig2 = go.Figure()
         if env["max"]:
-            fig2.add_trace(go.Scatter(x=days, y=env["max"], mode="lines",
+            fig2.add_trace(go.Scatter(x=env_days, y=env["max"], mode="lines",
                                       name="Máximo histórico",
                                       line=dict(color="rgba(178,58,46,.30)", width=1)))
-            fig2.add_trace(go.Scatter(x=days, y=env["p90"], mode="lines", name="P90",
+            fig2.add_trace(go.Scatter(x=env_days, y=env["p90"], mode="lines", name="P90",
                                       fill="tonexty", fillcolor="rgba(193,101,46,.08)",
                                       line=dict(color="rgba(193,101,46,.45)", width=1)))
-            fig2.add_trace(go.Scatter(x=days, y=env["p50"], mode="lines", name="Mediana",
+            fig2.add_trace(go.Scatter(x=env_days, y=env["p50"], mode="lines", name="Mediana",
                                       fill="tonexty", fillcolor="rgba(140,138,128,.12)",
                                       line=dict(color="rgba(120,118,110,.55)", width=1)))
-        cur_season = hydro.season_slice(cur, status["season_year"])
-        if not cur_season.empty:
-            curve = hydro.cei_curve(cur_season, info["threshold"])
-            fig2.add_trace(go.Scatter(x=curve.index, y=curve.values, mode="lines",
-                                      name="Temporada atual", line=dict(color=LINE_BLUE, width=2.2)))
+        if disp["is_current"]:
+            s = load_current(code)
+            s = s[metric].dropna() if metric in s.columns else pd.Series(dtype=float)
+            s = hydro.season_slice(s, status["season_year"])
+            curve = hydro.cei_curve(s, info["threshold"])
+            if not curve.empty:
+                fig2.add_trace(go.Scatter(x=curve.index, y=curve.values, mode="lines",
+                                          name=disp["label"], line=dict(color=LINE_BLUE, width=2.2)))
+        elif disp["values"]:
+            arr = info["seasons"][season_choice]
+            cei_vals = hydro.cei_from_aligned(arr, info["threshold"])
+            fig2.add_trace(go.Scatter(x=env_days, y=cei_vals, mode="lines",
+                                      name=disp["label"], line=dict(color=LINE_BLUE, width=2.2)))
         fig2.update_xaxes(title_text="Dia da temporada (0 = 1-jul)")
         fig2.update_yaxes(title_text="CEI acumulado")
         st.plotly_chart(styled(fig2, height=280), width="stretch")
