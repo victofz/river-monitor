@@ -219,6 +219,16 @@ df = pd.DataFrame(status["stations"])
 # fora de sincronia -- filtra aqui, na fronteira entre os dois, para nunca
 # quebrar mais adiante (inclusive se baseline vier de um esquema antigo).
 df = df[df["code"].map(lambda c: bool(baseline.get(c, {}).get("metrics")))].reset_index(drop=True)
+
+if df.empty:
+    st.error(
+        "Não foi possível casar `data/status.json` com `data/baseline.json` "
+        "(nenhuma estação em comum). Isso costuma ser um deploy que ficou "
+        "com arquivos de commits diferentes em cache -- tente **Reboot app** "
+        "no menu do Streamlit Cloud (não apenas recarregar a página)."
+    )
+    st.stop()
+
 n_alert = status["status_counts"].get("alto", 0) + status["status_counts"].get("extremo", 0)
 
 # ============================================================================
