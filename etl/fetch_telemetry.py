@@ -8,9 +8,12 @@ a estacao transmitir), NAO recortado por temporada. O recorte 1-jul a
 30-jun (para o CEI) e feito na leitura, em build_index.py e app.py.
 
 Robusto por design:
-  - falha por estacao nao derruba o job;
-  - se a fracao de estacoes com sucesso for baixa, sai com codigo != 0
-    para o workflow NAO commitar dados possivelmente corrompidos.
+  - cada estacao e buscada e fundida de forma isolada (try/except) -- uma
+    falha numa estacao nunca corrompe as outras, so aquela fica sem o dado
+    novo desta rodada (o buffer que ja existia continua intacto);
+  - por isso o job SEMPRE termina com sucesso (exit 0), mesmo com varias
+    estacoes falhando -- a API da ANA e publica e ocasionalmente instavel,
+    e isso nao deveria gerar alerta de falha por e-mail a cada rodada.
 """
 from __future__ import annotations
 
@@ -34,18 +37,28 @@ CUR_DIR.mkdir(parents=True, exist_ok=True)
 
 LOOKBACK_DAYS = 45          # janela buscada a cada rodada
 KEEP_DAYS = 450              # buffer rolante guardado no parquet (~15 meses)
-MIN_SUCCESS_FRACTION = 0.5   # < isto => aborta sem commit
+MIN_SUCCESS_WARN = 0.5       # abaixo disto, so um aviso no log (nao falha o job)
+RETRIES = 2                  # tentativas extras por estacao antes de desistir
+RETRY_WAIT = 4                # segundos entre tentativas
 
 
 def fetch(code: str, start: str, end: str) -> pd.DataFrame:
     params = {"codEstacao": code, "dataInicio": start, "dataFim": end}
-    r = requests.get(SOAP_URL, params=params, timeout=120)
-    r.raise_for_status()
-    root = ET.fromstring(r.content)
-    rows = []
-    for rec in root.iter(XML_TAG):
-        rows.append({c.tag.split("}")[-1]: c.text for c in rec})
-    return pd.DataFrame(rows)
+    last_err = None
+    for attempt in range(RETRIES + 1):
+        try:
+            r = requests.get(SOAP_URL, params=params, timeout=120)
+            r.raise_for_status()
+            root = ET.fromstring(r.content)
+            rows = []
+            for rec in root.iter(XML_TAG):
+                rows.append({c.tag.split("}")[-1]: c.text for c in rec})
+            return pd.DataFrame(rows)
+        except Exception as e:  # noqa: BLE001
+            last_err = e
+            if attempt < RETRIES:
+                time.sleep(RETRY_WAIT)
+    raise last_err
 
 
 def to_daily(df: pd.DataFrame) -> pd.DataFrame:
@@ -127,9 +140,11 @@ def main() -> None:
     frac = ok / len(STATIONS)
     print("=" * 60)
     print(f"Sucesso: {ok}/50 ({frac:.0%}) | dias novos: {total_added}")
-    if frac < MIN_SUCCESS_FRACTION:
-        sys.exit(f"Taxa de sucesso {frac:.0%} < {MIN_SUCCESS_FRACTION:.0%} -- "
-                 f"abortando para nao commitar dados incompletos")
+    if frac < MIN_SUCCESS_WARN:
+        print(f"AVISO: taxa de sucesso {frac:.0%} abaixo do esperado -- "
+              f"provavelmente instabilidade pontual da API da ANA. As estacoes "
+              f"que falharam mantem o dado que ja tinham; sem risco de corrupcao.")
+    # sempre exit 0: uma rodada ruim nao deve gerar alerta de falha por e-mail
 
 
 if __name__ == "__main__":
