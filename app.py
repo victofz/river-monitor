@@ -137,6 +137,22 @@ def load_current(code: str) -> pd.DataFrame:
 
 
 METRIC_LABEL = {"flow": "Vazão", "level": "Nível"}
+EXCESS_LABEL = {"flow": "Excesso de vazão acumulado", "level": "Excesso de nível acumulado"}
+
+
+def season_month_ticks() -> tuple[list[int], list[str]]:
+    """tickvals/ticktext (mm-dd) no dia 1 de cada mes da temporada (0 = 1-jul)."""
+    anchor = pd.Timestamp("2000-07-01")  # ano bissexto -- cobre os 366 dias da temporada
+    vals, text = [], []
+    for day in range(hydro.SEASON_LEN_DAYS):
+        d = anchor + pd.Timedelta(days=day)
+        if d.day == 1:
+            vals.append(day)
+            text.append(d.strftime("%m-%d"))
+    return vals, text
+
+
+SEASON_TICKVALS, SEASON_TICKTEXT = season_month_ticks()
 
 
 def pct_rank(value: float, distribution: list[float]) -> float:
@@ -285,9 +301,12 @@ with tab_explore:
             marker=dict(size=12, color=STATUS_COLORS[stt]),
             name=STATUS_LABEL[stt],
             text=sub["name"] + " — " + sub["river"].fillna(""),
-            customdata=sub[["code", "last_value", "unit", "cei_pct_rank", "last_date"]].values,
+            customdata=sub.assign(
+                metric_label=sub["data_type"].map(METRIC_LABEL)
+            )[["code", "last_value", "unit", "cei_pct_rank", "last_date", "metric_label"]].values,
             hovertemplate="<b>%{text}</b><br>Última leitura: %{customdata[1]} %{customdata[2]}"
-                          "<br>CEI rank: %{customdata[3]}%<br>%{customdata[4]}<extra></extra>",
+                          "<br>Rank do excesso acumulado (%{customdata[5]}): %{customdata[3]}%"
+                          "<br>%{customdata[4]}<extra></extra>",
         ))
     fig_map.update_layout(
         map=dict(style="open-street-map", center=dict(lat=-29.7, lon=-53.2), zoom=5.3),
@@ -369,14 +388,15 @@ with tab_explore:
             m2.metric("Atualizado", "hoje" if ds == 0 else (f"há {ds}d" if ds is not None else "—"),
                       str(disp["last_date"].date()) if disp["last_date"] is not None else "sem dado",
                       delta_color="off")
-            m3.metric(f"CEI {season_fmt['current']}", f"{disp['cei_now']:.0f}",
+            m3.metric(EXCESS_LABEL[metric], f"{disp['cei_now']:.0f}",
                       f"percentil {disp['cei_pct_rank']:.0f}%"
                       if pd.notna(disp["cei_pct_rank"]) else "—", delta_color="off")
         else:
             mx = max(disp["values"]) if disp["values"] else None
             m1.metric(f"Máximo na safra ({METRIC_LABEL[metric].lower()})",
                       f"{mx:.1f} {info['unit']}" if mx is not None else "—", delta_color="off")
-            m2.metric("CEI final da safra", f"{disp['cei_now']:.0f}", delta_color="off")
+            m2.metric(f"{EXCESS_LABEL[metric]} (final da safra)", f"{disp['cei_now']:.0f}",
+                      delta_color="off")
             m3.metric("Percentil vs. histórico", f"{disp['cei_pct_rank']:.0f}%"
                       if pd.notna(disp["cei_pct_rank"]) else "—", delta_color="off")
 
@@ -408,11 +428,12 @@ with tab_explore:
         fig.add_trace(go.Scatter(x=[disp["days"][-1]], y=[disp["values"][-1]],
                                  mode="markers", marker=dict(color=LINE_BLUE, size=9,
                                  line=dict(color=PANEL_BG, width=1.5)), showlegend=False))
-    fig.update_xaxes(title_text="Dia da temporada (0 = 1-jul)")
+    fig.update_xaxes(title_text="Data (mm-dd)", tickmode="array",
+                     tickvals=SEASON_TICKVALS, ticktext=SEASON_TICKTEXT)
     fig.update_yaxes(title_text=f"{METRIC_LABEL[metric]} ({info['unit']})")
     st.plotly_chart(styled(fig, height=430), width="stretch")
 
-    with st.expander("Ver detalhe do índice acumulado (CEI)"):
+    with st.expander(f"Ver detalhe do {EXCESS_LABEL[metric].lower()}"):
         env = info["envelope"]
         env_days = list(range(hydro.SEASON_LEN_DAYS))
         fig2 = go.Figure()
@@ -439,11 +460,13 @@ with tab_explore:
             cei_vals = hydro.cei_from_aligned(arr, info["threshold"])
             fig2.add_trace(go.Scatter(x=env_days, y=cei_vals, mode="lines",
                                       name=disp["label"], line=dict(color=LINE_BLUE, width=2.2)))
-        fig2.update_xaxes(title_text="Dia da temporada (0 = 1-jul)")
-        fig2.update_yaxes(title_text="CEI acumulado")
+        fig2.update_xaxes(title_text="Data (mm-dd)", tickmode="array",
+                          tickvals=SEASON_TICKVALS, ticktext=SEASON_TICKTEXT)
+        fig2.update_yaxes(title_text=EXCESS_LABEL[metric])
         st.plotly_chart(styled(fig2, height=280), width="stretch")
-        st.caption("CEI = soma dos excessos diários acima do limiar histórico P97 da "
-                  "própria estação, acumulada ao longo da temporada.")
+        st.caption(f"{EXCESS_LABEL[metric]} = soma dos excessos diários de "
+                  f"{METRIC_LABEL[metric].lower()} acima do limiar histórico P97 da "
+                  f"própria estação, acumulada ao longo da temporada.")
 
 # --------------------------------------------------------------------------
 with tab_table:
@@ -454,11 +477,11 @@ with tab_table:
                "cei_now", "cei_pct_rank", "n_seasons"]]
     tbl.columns = ["Código", "Estação", "Rio", "Município", "Tipo", "Un.",
                    "Últ. data", "Últ. valor", "Dias atrás", "Status",
-                   "CEI atual", "CEI rank %", "Temporadas"]
+                   "Excesso acumulado", "Excesso rank %", "Temporadas"]
     st.dataframe(tbl, width="stretch", hide_index=True, height=540,
                  column_config={
-                     "CEI rank %": st.column_config.ProgressColumn(
-                         "CEI rank %", min_value=0, max_value=100, format="%.0f%%"),
+                     "Excesso rank %": st.column_config.ProgressColumn(
+                         "Excesso rank %", min_value=0, max_value=100, format="%.0f%%"),
                  })
 
 # ============================================================================
@@ -470,11 +493,12 @@ with st.expander("Sobre a metodologia e as fontes"):
 <div class="foot">
 <b>Temporada:</b> ciclo contínuo de 12 meses, 1º de julho a 30 de junho —
 sem intervalo entre temporadas.<br><br>
-<b>CEI (Cumulative Excess Index):</b> soma dos excessos diários acima do
-percentil P97 da própria estação, acumulada ao longo da temporada. Um CEI
-alto significa uma temporada com excedentes mais frequentes ou intensos
-que o normal <i>para aquele rio</i> — não é comparável entre estações de
-tamanhos diferentes.<br><br>
+<b>Excesso acumulado (de vazão ou de nível):</b> soma dos excessos diários
+acima do percentil P97 da própria estação, acumulada ao longo da
+temporada — de vazão para estações medidas em vazão, de nível para as
+medidas em nível. Um valor alto significa uma temporada com excedentes
+mais frequentes ou intensos que o normal <i>para aquele rio</i> — não é
+comparável entre estações diferentes.<br><br>
 <b>Faixa histórica (mín–máx):</b> para cada dia da temporada, a menor e a
 maior leitura já registradas naquele dia específico, entre todas as
 temporadas com cobertura suficiente da estação.<br><br>
