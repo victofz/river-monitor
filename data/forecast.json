@@ -1,0 +1,4672 @@
+{
+ "issued": "2026-08-12T23:15:19",
+ "trig_pct": 95,
+ "stations": {
+  "74100000": {
+   "metric": "flow",
+   "trig_thr": 5007.8,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 4308.5,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 3338.7,
+     "q_p10": 3329.5,
+     "q_p90": 3338.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 385.2,
+     "q_p10": 383.3,
+     "q_p90": 392.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 4308.5,
+     "q_p10": 4028.1,
+     "q_p90": 4394.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 513.8,
+     "q_p10": 500.1,
+     "q_p90": 524.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 533.9,
+     "q_p10": 501.5,
+     "q_p90": 556.4,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 4157.1,
+     "q_p10": 3884.5,
+     "q_p90": 4889.5,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 3024.6,
+     "q_p10": 2835.5,
+     "q_p90": 3518.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 350.3,
+     "q_p10": 333.5,
+     "q_p90": 407.5,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 2620.5,
+     "q_p10": 2424.2,
+     "q_p90": 3395.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 338.1,
+     "q_p10": 309.0,
+     "q_p90": 410.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 368.8,
+     "q_p10": 339.5,
+     "q_p90": 423.2,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 3080.3,
+     "q_p10": 2622.1,
+     "q_p90": 3452.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 2035.8,
+     "q_p10": 1701.4,
+     "q_p90": 2853.5,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 309.8,
+     "q_p10": 276.3,
+     "q_p90": 380.1,
+     "trig_prob": 0.06
+    }
+   ]
+  },
+  "74500000": {
+   "metric": "flow",
+   "trig_thr": 5996.6,
+   "trigger_prob_15d": 0.98,
+   "trigger_horizon": 3,
+   "peak_median": 4033.9,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 3919.3,
+     "q_p10": 3889.9,
+     "q_p90": 3923.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 395.6,
+     "q_p10": 393.1,
+     "q_p90": 399.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 4033.9,
+     "q_p10": 3863.7,
+     "q_p90": 4381.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 660.6,
+     "q_p10": 625.3,
+     "q_p90": 708.1,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 904.9,
+     "q_p10": 785.0,
+     "q_p90": 936.2,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 3405.0,
+     "q_p10": 3301.1,
+     "q_p90": 3978.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 2950.3,
+     "q_p10": 2817.4,
+     "q_p90": 3077.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 514.2,
+     "q_p10": 483.6,
+     "q_p90": 564.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 2383.9,
+     "q_p10": 2290.4,
+     "q_p90": 3561.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 422.6,
+     "q_p10": 400.6,
+     "q_p90": 479.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 441.3,
+     "q_p10": 361.2,
+     "q_p90": 536.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 3296.1,
+     "q_p10": 2717.9,
+     "q_p90": 3628.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 3894.8,
+     "q_p10": 2623.3,
+     "q_p90": 5870.1,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 404.3,
+     "q_p10": 286.4,
+     "q_p90": 495.0,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "74800000": {
+   "metric": "flow",
+   "trig_thr": 8086.5,
+   "trigger_prob_15d": 0.38,
+   "trigger_horizon": 3,
+   "peak_median": 7238.8,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 4167.0,
+     "q_p10": 4157.7,
+     "q_p90": 4274.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 244.4,
+     "q_p10": 243.4,
+     "q_p90": 245.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 5523.8,
+     "q_p10": 5198.2,
+     "q_p90": 5838.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 341.9,
+     "q_p10": 312.4,
+     "q_p90": 352.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 396.6,
+     "q_p10": 386.3,
+     "q_p90": 464.6,
+     "trig_prob": 0.38
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 7238.8,
+     "q_p10": 7003.5,
+     "q_p90": 8625.7,
+     "trig_prob": 0.3
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 4408.1,
+     "q_p10": 4038.0,
+     "q_p90": 4799.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 301.6,
+     "q_p10": 286.0,
+     "q_p90": 314.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 4479.0,
+     "q_p10": 3923.0,
+     "q_p90": 5737.8,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 265.3,
+     "q_p10": 244.7,
+     "q_p90": 312.0,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 271.9,
+     "q_p10": 246.2,
+     "q_p90": 327.3,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 4550.0,
+     "q_p10": 3897.0,
+     "q_p90": 5294.0,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 4561.6,
+     "q_p10": 3028.6,
+     "q_p90": 5925.9,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 292.8,
+     "q_p10": 194.5,
+     "q_p90": 359.1,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "75230000": {
+   "metric": "flow",
+   "trig_thr": 471.7,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 654.6,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 467.7,
+     "q_p10": 428.7,
+     "q_p90": 496.9,
+     "trig_prob": 0.42
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 310.2,
+     "q_p10": 289.9,
+     "q_p90": 323.8,
+     "trig_prob": 0.62
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 608.7,
+     "q_p10": 562.2,
+     "q_p90": 634.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 323.4,
+     "q_p10": 319.1,
+     "q_p90": 331.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 379.9,
+     "q_p10": 344.1,
+     "q_p90": 411.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 654.6,
+     "q_p10": 527.3,
+     "q_p90": 832.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 358.6,
+     "q_p10": 322.5,
+     "q_p90": 589.7,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 283.4,
+     "q_p10": 269.8,
+     "q_p90": 365.4,
+     "trig_prob": 0.38
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 381.0,
+     "q_p10": 312.2,
+     "q_p90": 627.4,
+     "trig_prob": 0.24
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 270.2,
+     "q_p10": 251.9,
+     "q_p90": 348.5,
+     "trig_prob": 0.3
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 282.8,
+     "q_p10": 239.2,
+     "q_p90": 328.7,
+     "trig_prob": 0.28
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 356.0,
+     "q_p10": 262.9,
+     "q_p90": 476.8,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 311.0,
+     "q_p10": 206.6,
+     "q_p90": 437.3,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 254.6,
+     "q_p10": 203.7,
+     "q_p90": 283.6,
+     "trig_prob": 0.06
+    }
+   ]
+  },
+  "75500000": {
+   "metric": "flow",
+   "trig_thr": 529.9,
+   "trigger_prob_15d": 0.2,
+   "trigger_horizon": 3,
+   "peak_median": 571.9,
+   "peak_date": "2026-08-17",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 256.3,
+     "q_p10": 255.3,
+     "q_p90": 265.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 410.5,
+     "q_p10": 407.2,
+     "q_p90": 428.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 322.9,
+     "q_p10": 317.8,
+     "q_p90": 438.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 421.1,
+     "q_p10": 419.1,
+     "q_p90": 512.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 506.6,
+     "q_p10": 497.0,
+     "q_p90": 613.2,
+     "trig_prob": 0.2
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 366.8,
+     "q_p10": 354.5,
+     "q_p90": 484.8,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 370.2,
+     "q_p10": 309.8,
+     "q_p90": 445.9,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 571.9,
+     "q_p10": 476.2,
+     "q_p90": 593.8,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 306.0,
+     "q_p10": 227.6,
+     "q_p90": 422.9,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 440.1,
+     "q_p10": 341.0,
+     "q_p90": 512.4,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 419.7,
+     "q_p10": 328.2,
+     "q_p90": 499.0,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 247.1,
+     "q_p10": 166.8,
+     "q_p90": 389.2,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 266.5,
+     "q_p10": 175.8,
+     "q_p90": 417.7,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 388.6,
+     "q_p10": 302.4,
+     "q_p90": 501.9,
+     "trig_prob": 0.04
+    }
+   ]
+  },
+  "75550000": {
+   "metric": "flow",
+   "trig_thr": 8910.6,
+   "trigger_prob_15d": 0.08,
+   "trigger_horizon": 15,
+   "peak_median": 6378.9,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 5715.8,
+     "q_p10": 5715.8,
+     "q_p90": 5742.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 487.3,
+     "q_p10": 485.2,
+     "q_p90": 487.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 6378.9,
+     "q_p10": 6338.6,
+     "q_p90": 6841.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 509.8,
+     "q_p10": 504.8,
+     "q_p90": 517.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 545.3,
+     "q_p10": 540.3,
+     "q_p90": 560.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 5815.9,
+     "q_p10": 5772.6,
+     "q_p90": 5815.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 6108.3,
+     "q_p10": 6017.2,
+     "q_p90": 6739.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 543.9,
+     "q_p10": 513.5,
+     "q_p90": 582.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 5609.3,
+     "q_p10": 4515.3,
+     "q_p90": 7991.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 482.6,
+     "q_p10": 465.4,
+     "q_p90": 642.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 524.8,
+     "q_p10": 402.3,
+     "q_p90": 669.9,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 5762.1,
+     "q_p10": 4440.0,
+     "q_p90": 7324.3,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 5542.6,
+     "q_p10": 4282.9,
+     "q_p90": 6201.4,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 493.1,
+     "q_p10": 287.5,
+     "q_p90": 576.8,
+     "trig_prob": 0.02
+    }
+   ]
+  },
+  "75780000": {
+   "metric": "flow",
+   "trig_thr": 10364.8,
+   "trigger_prob_15d": 0.06,
+   "trigger_horizon": 10,
+   "peak_median": 6138.7,
+   "peak_date": "2026-08-17",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 5596.0,
+     "q_p10": 5596.0,
+     "q_p90": 5596.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 581.5,
+     "q_p10": 581.2,
+     "q_p90": 581.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 5579.5,
+     "q_p10": 5528.1,
+     "q_p90": 5662.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 568.6,
+     "q_p10": 565.4,
+     "q_p90": 568.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 594.2,
+     "q_p10": 592.7,
+     "q_p90": 596.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 5731.7,
+     "q_p10": 5697.6,
+     "q_p90": 5772.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 6138.7,
+     "q_p10": 6058.1,
+     "q_p90": 6617.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 623.6,
+     "q_p10": 615.2,
+     "q_p90": 627.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 5385.7,
+     "q_p10": 4400.5,
+     "q_p90": 7165.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 609.6,
+     "q_p10": 557.6,
+     "q_p90": 703.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 630.5,
+     "q_p10": 562.0,
+     "q_p90": 699.5,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 5919.1,
+     "q_p10": 4765.1,
+     "q_p90": 6847.7,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 4650.3,
+     "q_p10": 4091.1,
+     "q_p90": 6879.8,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 561.3,
+     "q_p10": 507.9,
+     "q_p90": 742.9,
+     "trig_prob": 0.02
+    }
+   ]
+  },
+  "75900000": {
+   "metric": "flow",
+   "trig_thr": 9453.7,
+   "trigger_prob_15d": 0.1,
+   "trigger_horizon": 10,
+   "peak_median": 7338.9,
+   "peak_date": "2026-08-13",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 7338.9,
+     "q_p10": 7338.9,
+     "q_p90": 7338.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 688.7,
+     "q_p10": 688.7,
+     "q_p90": 688.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 6843.3,
+     "q_p10": 6828.2,
+     "q_p90": 6871.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 647.6,
+     "q_p10": 647.6,
+     "q_p90": 647.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 610.9,
+     "q_p10": 610.1,
+     "q_p90": 611.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 6410.0,
+     "q_p10": 6407.3,
+     "q_p90": 6418.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 5420.8,
+     "q_p10": 5352.8,
+     "q_p90": 5731.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 600.3,
+     "q_p10": 597.5,
+     "q_p90": 619.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 6230.0,
+     "q_p10": 4884.6,
+     "q_p90": 7374.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 639.2,
+     "q_p10": 583.3,
+     "q_p90": 680.9,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 640.7,
+     "q_p10": 547.0,
+     "q_p90": 706.5,
+     "trig_prob": 0.1
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 5890.6,
+     "q_p10": 5280.3,
+     "q_p90": 8065.0,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 5421.6,
+     "q_p10": 4914.2,
+     "q_p90": 6383.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 567.6,
+     "q_p10": 492.3,
+     "q_p90": 630.7,
+     "trig_prob": 0.02
+    }
+   ]
+  },
+  "76300000": {
+   "metric": "flow",
+   "trig_thr": 427.5,
+   "trigger_prob_15d": 0.66,
+   "trigger_horizon": 10,
+   "peak_median": 467.0,
+   "peak_date": "2026-08-22",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 376.6,
+     "q_p10": 372.9,
+     "q_p90": 379.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 297.9,
+     "q_p10": 297.4,
+     "q_p90": 300.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 355.7,
+     "q_p10": 347.9,
+     "q_p90": 355.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 301.0,
+     "q_p10": 297.6,
+     "q_p90": 303.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 308.6,
+     "q_p10": 300.0,
+     "q_p90": 310.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 367.5,
+     "q_p10": 350.0,
+     "q_p90": 371.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 388.2,
+     "q_p10": 354.7,
+     "q_p90": 420.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 297.4,
+     "q_p10": 270.7,
+     "q_p90": 370.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 398.9,
+     "q_p10": 275.3,
+     "q_p90": 476.1,
+     "trig_prob": 0.3
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 372.6,
+     "q_p10": 257.7,
+     "q_p90": 469.0,
+     "trig_prob": 0.3
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 353.4,
+     "q_p10": 260.8,
+     "q_p90": 445.4,
+     "trig_prob": 0.28
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 467.0,
+     "q_p10": 264.5,
+     "q_p90": 570.0,
+     "trig_prob": 0.66
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 232.0,
+     "q_p10": 190.4,
+     "q_p90": 465.2,
+     "trig_prob": 0.12
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 254.6,
+     "q_p10": 231.9,
+     "q_p90": 383.9,
+     "trig_prob": 0.04
+    }
+   ]
+  },
+  "76310000": {
+   "metric": "flow",
+   "trig_thr": 900.9,
+   "trigger_prob_15d": 0.56,
+   "trigger_horizon": 10,
+   "peak_median": 940.9,
+   "peak_date": "2026-08-22",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 743.0,
+     "q_p10": 740.3,
+     "q_p90": 745.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 360.0,
+     "q_p10": 357.8,
+     "q_p90": 361.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 685.6,
+     "q_p10": 675.3,
+     "q_p90": 689.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 351.2,
+     "q_p10": 337.6,
+     "q_p90": 353.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 357.4,
+     "q_p10": 346.3,
+     "q_p90": 362.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 579.3,
+     "q_p10": 559.5,
+     "q_p90": 588.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 591.1,
+     "q_p10": 497.0,
+     "q_p90": 814.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 362.0,
+     "q_p10": 322.9,
+     "q_p90": 408.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 753.7,
+     "q_p10": 464.7,
+     "q_p90": 902.4,
+     "trig_prob": 0.12
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 451.7,
+     "q_p10": 307.5,
+     "q_p90": 509.0,
+     "trig_prob": 0.46
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 465.6,
+     "q_p10": 325.6,
+     "q_p90": 516.2,
+     "trig_prob": 0.56
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 940.9,
+     "q_p10": 508.6,
+     "q_p90": 1072.8,
+     "trig_prob": 0.56
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 577.4,
+     "q_p10": 395.5,
+     "q_p90": 970.4,
+     "trig_prob": 0.18
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 364.1,
+     "q_p10": 300.0,
+     "q_p90": 486.6,
+     "trig_prob": 0.22
+    }
+   ]
+  },
+  "76560000": {
+   "metric": "flow",
+   "trig_thr": 2099.5,
+   "trigger_prob_15d": 0.14,
+   "trigger_horizon": 7,
+   "peak_median": 1870.5,
+   "peak_date": "2026-08-13",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 1870.5,
+     "q_p10": 1868.6,
+     "q_p90": 1874.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 735.4,
+     "q_p10": 734.8,
+     "q_p90": 736.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1780.6,
+     "q_p10": 1728.9,
+     "q_p90": 1782.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 727.9,
+     "q_p10": 716.8,
+     "q_p90": 728.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 694.4,
+     "q_p10": 678.8,
+     "q_p90": 698.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 1564.2,
+     "q_p10": 1531.3,
+     "q_p90": 1564.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 1606.0,
+     "q_p10": 1578.6,
+     "q_p90": 1629.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 695.0,
+     "q_p10": 680.4,
+     "q_p90": 698.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 1627.2,
+     "q_p10": 1332.6,
+     "q_p90": 1893.3,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 739.8,
+     "q_p10": 685.7,
+     "q_p90": 799.4,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 690.1,
+     "q_p10": 600.5,
+     "q_p90": 784.6,
+     "trig_prob": 0.12
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 1642.9,
+     "q_p10": 1276.0,
+     "q_p90": 2136.4,
+     "trig_prob": 0.12
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 1230.7,
+     "q_p10": 730.5,
+     "q_p90": 1625.4,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 622.7,
+     "q_p10": 468.9,
+     "q_p90": 706.3,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "76700000": {
+   "metric": "flow",
+   "trig_thr": 739.4,
+   "trigger_prob_15d": 0.02,
+   "trigger_horizon": 7,
+   "peak_median": 545.3,
+   "peak_date": "2026-08-13",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 545.3,
+     "q_p10": 544.7,
+     "q_p90": 545.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 383.2,
+     "q_p10": 381.9,
+     "q_p90": 383.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 255.6,
+     "q_p10": 253.0,
+     "q_p90": 258.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 239.0,
+     "q_p10": 178.7,
+     "q_p90": 305.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 354.8,
+     "q_p10": 272.2,
+     "q_p90": 709.6,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 377.0,
+     "q_p10": 319.0,
+     "q_p90": 599.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 297.8,
+     "q_p10": 231.9,
+     "q_p90": 574.0,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "76742000": {
+   "metric": "flow",
+   "trig_thr": 125.8,
+   "trigger_prob_15d": 0.0,
+   "trigger_horizon": 1,
+   "peak_median": 396.1,
+   "peak_date": "2026-08-19",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 7.3,
+     "q_p10": 6.7,
+     "q_p90": 8.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 342.7,
+     "q_p10": 341.1,
+     "q_p90": 349.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 16.2,
+     "q_p10": 15.9,
+     "q_p90": 16.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 334.0,
+     "q_p10": 323.1,
+     "q_p90": 343.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 305.8,
+     "q_p10": 297.2,
+     "q_p90": 345.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 16.9,
+     "q_p10": 15.2,
+     "q_p90": 21.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 23.8,
+     "q_p10": 18.2,
+     "q_p90": 30.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 343.9,
+     "q_p10": 286.6,
+     "q_p90": 389.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 38.4,
+     "q_p10": 14.2,
+     "q_p90": 61.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 396.1,
+     "q_p10": 280.7,
+     "q_p90": 414.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 327.0,
+     "q_p10": 277.9,
+     "q_p90": 379.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 39.3,
+     "q_p10": 18.8,
+     "q_p90": 90.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 19.2,
+     "q_p10": 13.3,
+     "q_p90": 37.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 307.1,
+     "q_p10": 252.5,
+     "q_p90": 362.9,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "76750000": {
+   "metric": "flow",
+   "trig_thr": 546.2,
+   "trigger_prob_15d": 0.08,
+   "trigger_horizon": 10,
+   "peak_median": 708.4,
+   "peak_date": "2026-08-13",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 427.5,
+     "q_p10": 426.6,
+     "q_p90": 429.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 708.4,
+     "q_p10": 705.0,
+     "q_p90": 708.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 362.9,
+     "q_p10": 361.6,
+     "q_p90": 385.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 650.2,
+     "q_p10": 645.2,
+     "q_p90": 661.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 533.6,
+     "q_p10": 527.9,
+     "q_p90": 561.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 243.0,
+     "q_p10": 234.9,
+     "q_p90": 273.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 225.9,
+     "q_p10": 163.0,
+     "q_p90": 317.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 448.2,
+     "q_p10": 409.1,
+     "q_p90": 501.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 339.5,
+     "q_p10": 145.2,
+     "q_p90": 461.1,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 515.8,
+     "q_p10": 351.2,
+     "q_p90": 627.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 637.5,
+     "q_p10": 425.8,
+     "q_p90": 742.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 316.4,
+     "q_p10": 157.5,
+     "q_p90": 521.4,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 250.3,
+     "q_p10": 97.4,
+     "q_p90": 333.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 572.0,
+     "q_p10": 354.7,
+     "q_p90": 658.4,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "76800000": {
+   "metric": "flow",
+   "trig_thr": 3044.3,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 3159.5,
+   "peak_date": "2026-08-13",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 3159.5,
+     "q_p10": 3159.5,
+     "q_p90": 3170.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 724.4,
+     "q_p10": 723.9,
+     "q_p90": 724.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 2909.2,
+     "q_p10": 2909.2,
+     "q_p90": 2924.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 677.5,
+     "q_p10": 677.3,
+     "q_p90": 684.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 661.9,
+     "q_p10": 661.8,
+     "q_p90": 667.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 2736.1,
+     "q_p10": 2735.2,
+     "q_p90": 2800.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 2641.2,
+     "q_p10": 2531.1,
+     "q_p90": 2750.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 596.8,
+     "q_p10": 585.8,
+     "q_p90": 619.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 2239.0,
+     "q_p10": 1971.5,
+     "q_p90": 3002.1,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 587.4,
+     "q_p10": 528.0,
+     "q_p90": 664.4,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 546.6,
+     "q_p10": 436.7,
+     "q_p90": 586.3,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 1969.9,
+     "q_p10": 1382.1,
+     "q_p90": 2434.2,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 1657.6,
+     "q_p10": 995.3,
+     "q_p90": 2002.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 508.2,
+     "q_p10": 359.2,
+     "q_p90": 567.1,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "77150000": {
+   "metric": "flow",
+   "trig_thr": 14252.0,
+   "trigger_prob_15d": 0.04,
+   "trigger_horizon": 10,
+   "peak_median": 12095.4,
+   "peak_date": "2026-08-13",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 12095.4,
+     "q_p10": 12042.0,
+     "q_p90": 12095.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 783.8,
+     "q_p10": 781.6,
+     "q_p90": 786.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 11539.8,
+     "q_p10": 11535.6,
+     "q_p90": 11539.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 757.8,
+     "q_p10": 757.7,
+     "q_p90": 757.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 729.9,
+     "q_p10": 728.0,
+     "q_p90": 733.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 10491.9,
+     "q_p10": 10475.9,
+     "q_p90": 10493.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 9216.2,
+     "q_p10": 9063.0,
+     "q_p90": 9936.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 687.8,
+     "q_p10": 675.6,
+     "q_p90": 700.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 9287.4,
+     "q_p10": 8861.0,
+     "q_p90": 10342.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 684.0,
+     "q_p10": 670.3,
+     "q_p90": 700.5,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 673.4,
+     "q_p10": 644.4,
+     "q_p90": 704.4,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 9817.0,
+     "q_p10": 8635.3,
+     "q_p90": 10301.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 7413.8,
+     "q_p10": 6593.4,
+     "q_p90": 9060.6,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 603.4,
+     "q_p10": 540.4,
+     "q_p90": 640.2,
+     "trig_prob": 0.02
+    }
+   ]
+  },
+  "77500000": {
+   "metric": "flow",
+   "trig_thr": 463.7,
+   "trigger_prob_15d": 0.26,
+   "trigger_horizon": 7,
+   "peak_median": 322.3,
+   "peak_date": "2026-08-19",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 144.7,
+     "q_p10": 144.4,
+     "q_p90": 148.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 284.7,
+     "q_p10": 280.9,
+     "q_p90": 286.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 119.0,
+     "q_p10": 104.8,
+     "q_p90": 132.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 259.9,
+     "q_p10": 231.4,
+     "q_p90": 272.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 211.3,
+     "q_p10": 184.1,
+     "q_p90": 221.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 97.5,
+     "q_p10": 80.2,
+     "q_p90": 114.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 174.1,
+     "q_p10": 99.6,
+     "q_p90": 248.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 314.0,
+     "q_p10": 210.0,
+     "q_p90": 409.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 236.9,
+     "q_p10": 146.8,
+     "q_p90": 409.6,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 322.3,
+     "q_p10": 230.3,
+     "q_p90": 573.2,
+     "trig_prob": 0.26
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 305.0,
+     "q_p10": 222.8,
+     "q_p90": 406.0,
+     "trig_prob": 0.06
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 172.9,
+     "q_p10": 103.7,
+     "q_p90": 238.5,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 115.1,
+     "q_p10": 84.0,
+     "q_p90": 194.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 246.2,
+     "q_p10": 170.2,
+     "q_p90": 413.0,
+     "trig_prob": 0.04
+    }
+   ]
+  },
+  "79400000": {
+   "metric": "flow",
+   "trig_thr": 103.2,
+   "trigger_prob_15d": 0.62,
+   "trigger_horizon": 5,
+   "peak_median": 488.9,
+   "peak_date": "2026-08-17",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 63.9,
+     "q_p10": 62.4,
+     "q_p90": 64.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 421.8,
+     "q_p10": 418.6,
+     "q_p90": 422.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 67.7,
+     "q_p10": 64.4,
+     "q_p90": 69.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 466.7,
+     "q_p10": 448.2,
+     "q_p90": 468.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 387.8,
+     "q_p10": 384.9,
+     "q_p90": 402.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 59.5,
+     "q_p10": 58.3,
+     "q_p90": 64.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 82.4,
+     "q_p10": 69.5,
+     "q_p90": 88.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 488.9,
+     "q_p10": 449.2,
+     "q_p90": 502.3,
+     "trig_prob": 0.62
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 80.3,
+     "q_p10": 65.7,
+     "q_p90": 129.7,
+     "trig_prob": 0.32
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 417.2,
+     "q_p10": 393.0,
+     "q_p90": 477.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 385.4,
+     "q_p10": 353.5,
+     "q_p90": 464.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 64.8,
+     "q_p10": 47.7,
+     "q_p90": 138.2,
+     "trig_prob": 0.28
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 67.7,
+     "q_p10": 45.3,
+     "q_p90": 119.7,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 389.7,
+     "q_p10": 343.0,
+     "q_p90": 481.1,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "85400000": {
+   "metric": "flow",
+   "trig_thr": 1119.1,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 2124.4,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 1502.7,
+     "q_p10": 1488.0,
+     "q_p90": 1552.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 612.0,
+     "q_p10": 598.7,
+     "q_p90": 622.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1964.5,
+     "q_p10": 1638.9,
+     "q_p90": 1996.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 696.5,
+     "q_p10": 655.6,
+     "q_p90": 697.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 686.1,
+     "q_p10": 630.7,
+     "q_p90": 768.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 2124.4,
+     "q_p10": 1779.1,
+     "q_p90": 2250.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 1562.3,
+     "q_p10": 1489.9,
+     "q_p90": 1673.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 576.3,
+     "q_p10": 533.4,
+     "q_p90": 605.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 1396.5,
+     "q_p10": 1030.7,
+     "q_p90": 1620.3,
+     "trig_prob": 0.82
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 543.7,
+     "q_p10": 464.8,
+     "q_p90": 590.4,
+     "trig_prob": 0.88
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 488.6,
+     "q_p10": 380.9,
+     "q_p90": 612.0,
+     "trig_prob": 0.52
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 1307.9,
+     "q_p10": 994.6,
+     "q_p90": 1691.8,
+     "trig_prob": 0.64
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 909.4,
+     "q_p10": 644.8,
+     "q_p90": 1164.1,
+     "trig_prob": 0.12
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 386.9,
+     "q_p10": 331.4,
+     "q_p90": 434.7,
+     "trig_prob": 0.06
+    }
+   ]
+  },
+  "85642000": {
+   "metric": "flow",
+   "trig_thr": 2105.9,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 5,
+   "peak_median": 2357.6,
+   "peak_date": "2026-08-19",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 1801.0,
+     "q_p10": 1799.9,
+     "q_p90": 1814.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 678.3,
+     "q_p10": 678.3,
+     "q_p90": 679.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1865.6,
+     "q_p10": 1865.6,
+     "q_p90": 1873.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 680.3,
+     "q_p10": 679.4,
+     "q_p90": 685.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 659.7,
+     "q_p10": 648.3,
+     "q_p90": 663.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 1961.5,
+     "q_p10": 1956.4,
+     "q_p90": 1970.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 2250.5,
+     "q_p10": 2150.3,
+     "q_p90": 2298.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 752.0,
+     "q_p10": 746.5,
+     "q_p90": 769.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 2357.6,
+     "q_p10": 2297.5,
+     "q_p90": 2509.4,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 805.9,
+     "q_p10": 780.8,
+     "q_p90": 819.2,
+     "trig_prob": 0.82
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 693.8,
+     "q_p10": 626.6,
+     "q_p90": 787.1,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 1983.4,
+     "q_p10": 1747.3,
+     "q_p90": 2284.2,
+     "trig_prob": 0.2
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 1476.3,
+     "q_p10": 1272.5,
+     "q_p90": 2004.5,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 532.7,
+     "q_p10": 515.7,
+     "q_p90": 742.6,
+     "trig_prob": 0.06
+    }
+   ]
+  },
+  "85900000": {
+   "metric": "flow",
+   "trig_thr": 3060.1,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 3646.3,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 3615.9,
+     "q_p10": 3604.1,
+     "q_p90": 3627.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 932.1,
+     "q_p10": 930.6,
+     "q_p90": 932.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 3646.3,
+     "q_p10": 3554.0,
+     "q_p90": 3669.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 916.0,
+     "q_p10": 906.4,
+     "q_p90": 921.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 888.1,
+     "q_p10": 888.1,
+     "q_p90": 889.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 3394.9,
+     "q_p10": 3364.8,
+     "q_p90": 3397.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 2754.8,
+     "q_p10": 2720.4,
+     "q_p90": 2842.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 829.7,
+     "q_p10": 818.4,
+     "q_p90": 833.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 2846.8,
+     "q_p10": 2824.6,
+     "q_p90": 2952.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 861.4,
+     "q_p10": 853.1,
+     "q_p90": 870.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 882.4,
+     "q_p10": 814.8,
+     "q_p90": 925.6,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 2995.9,
+     "q_p10": 2541.7,
+     "q_p90": 3381.6,
+     "trig_prob": 0.36
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 2176.3,
+     "q_p10": 1912.5,
+     "q_p90": 3084.0,
+     "trig_prob": 0.1
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 757.8,
+     "q_p10": 686.9,
+     "q_p90": 953.3,
+     "trig_prob": 0.12
+    }
+   ]
+  },
+  "86160000": {
+   "metric": "flow",
+   "trig_thr": 91.5,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 295.9,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 119.2,
+     "q_p10": 73.4,
+     "q_p90": 123.7,
+     "trig_prob": 0.78
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 252.5,
+     "q_p10": 227.3,
+     "q_p90": 265.8,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 143.2,
+     "q_p10": 102.7,
+     "q_p90": 196.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 295.9,
+     "q_p10": 250.6,
+     "q_p90": 347.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 294.6,
+     "q_p10": 272.1,
+     "q_p90": 327.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 123.4,
+     "q_p10": 115.4,
+     "q_p90": 204.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 101.4,
+     "q_p10": 88.1,
+     "q_p90": 166.1,
+     "trig_prob": 0.8
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 233.7,
+     "q_p10": 210.7,
+     "q_p90": 255.1,
+     "trig_prob": 0.9
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 68.1,
+     "q_p10": 59.4,
+     "q_p90": 104.7,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 184.3,
+     "q_p10": 156.4,
+     "q_p90": 215.8,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 181.0,
+     "q_p10": 159.4,
+     "q_p90": 246.2,
+     "trig_prob": 0.26
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 54.4,
+     "q_p10": 44.0,
+     "q_p90": 78.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 55.0,
+     "q_p10": 37.4,
+     "q_p90": 70.3,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 168.3,
+     "q_p10": 136.3,
+     "q_p90": 217.4,
+     "trig_prob": 0.16
+    }
+   ]
+  },
+  "86500000": {
+   "metric": "flow",
+   "trig_thr": 167.4,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 506.4,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 287.0,
+     "q_p10": 279.4,
+     "q_p90": 359.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 323.0,
+     "q_p10": 302.3,
+     "q_p90": 346.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 440.5,
+     "q_p10": 362.5,
+     "q_p90": 462.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 506.4,
+     "q_p10": 427.3,
+     "q_p90": 519.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 423.6,
+     "q_p10": 363.7,
+     "q_p90": 446.0,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 344.1,
+     "q_p10": 287.1,
+     "q_p90": 354.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 263.7,
+     "q_p10": 197.7,
+     "q_p90": 295.9,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 337.3,
+     "q_p10": 299.3,
+     "q_p90": 380.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 154.0,
+     "q_p10": 140.0,
+     "q_p90": 246.4,
+     "trig_prob": 0.42
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 313.1,
+     "q_p10": 281.7,
+     "q_p90": 333.2,
+     "trig_prob": 0.92
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 277.3,
+     "q_p10": 257.8,
+     "q_p90": 291.1,
+     "trig_prob": 0.68
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 150.6,
+     "q_p10": 111.0,
+     "q_p90": 205.1,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 106.0,
+     "q_p10": 88.2,
+     "q_p90": 158.4,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 264.1,
+     "q_p10": 247.2,
+     "q_p90": 278.4,
+     "trig_prob": 0.42
+    }
+   ]
+  },
+  "86510000": {
+   "metric": "flow",
+   "trig_thr": 1323.5,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 3877.9,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 1510.1,
+     "q_p10": 1387.6,
+     "q_p90": 1622.8,
+     "trig_prob": 0.94
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 640.4,
+     "q_p10": 583.4,
+     "q_p90": 686.9,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 3877.9,
+     "q_p10": 3665.3,
+     "q_p90": 3877.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1288.0,
+     "q_p10": 1286.4,
+     "q_p90": 1325.0,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 1093.9,
+     "q_p10": 1070.7,
+     "q_p90": 1259.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 3743.7,
+     "q_p10": 3743.7,
+     "q_p90": 4816.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 3077.1,
+     "q_p10": 2175.7,
+     "q_p90": 3777.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 838.3,
+     "q_p10": 679.3,
+     "q_p90": 937.2,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 1492.8,
+     "q_p10": 1189.4,
+     "q_p90": 2017.3,
+     "trig_prob": 0.78
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 590.7,
+     "q_p10": 552.7,
+     "q_p90": 721.4,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 501.3,
+     "q_p10": 462.9,
+     "q_p90": 590.1,
+     "trig_prob": 0.24
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 1220.9,
+     "q_p10": 1105.7,
+     "q_p90": 1701.7,
+     "trig_prob": 0.34
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 1010.5,
+     "q_p10": 710.4,
+     "q_p90": 1301.3,
+     "trig_prob": 0.1
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 481.0,
+     "q_p10": 390.8,
+     "q_p90": 600.9,
+     "trig_prob": 0.22
+    }
+   ]
+  },
+  "86560000": {
+   "metric": "flow",
+   "trig_thr": 195.1,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 466.7,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 216.2,
+     "q_p10": 210.5,
+     "q_p90": 233.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 360.7,
+     "q_p10": 295.1,
+     "q_p90": 363.0,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 403.5,
+     "q_p10": 370.1,
+     "q_p90": 424.0,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 453.3,
+     "q_p10": 392.9,
+     "q_p90": 462.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 378.4,
+     "q_p10": 311.0,
+     "q_p90": 444.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 466.7,
+     "q_p10": 260.3,
+     "q_p90": 483.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 197.6,
+     "q_p10": 172.4,
+     "q_p90": 304.5,
+     "trig_prob": 0.54
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 281.2,
+     "q_p10": 254.5,
+     "q_p90": 370.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 130.9,
+     "q_p10": 107.1,
+     "q_p90": 176.4,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 235.2,
+     "q_p10": 201.1,
+     "q_p90": 274.0,
+     "trig_prob": 0.62
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 210.2,
+     "q_p10": 178.8,
+     "q_p90": 253.4,
+     "trig_prob": 0.24
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 132.6,
+     "q_p10": 98.9,
+     "q_p90": 169.6,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 159.6,
+     "q_p10": 77.4,
+     "q_p90": 305.5,
+     "trig_prob": 0.4
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 231.1,
+     "q_p10": 182.1,
+     "q_p90": 262.9,
+     "trig_prob": 0.54
+    }
+   ]
+  },
+  "86720000": {
+   "metric": "flow",
+   "trig_thr": 1581.0,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 5837.7,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 1288.4,
+     "q_p10": 1286.5,
+     "q_p90": 1296.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 270.2,
+     "q_p10": 265.6,
+     "q_p90": 292.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 5837.7,
+     "q_p10": 5157.6,
+     "q_p90": 6720.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 865.2,
+     "q_p10": 786.1,
+     "q_p90": 899.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 925.2,
+     "q_p10": 568.2,
+     "q_p90": 935.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 5626.8,
+     "q_p10": 3972.1,
+     "q_p90": 6282.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 3272.2,
+     "q_p10": 1999.1,
+     "q_p90": 3838.2,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 793.5,
+     "q_p10": 527.8,
+     "q_p90": 914.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 1939.4,
+     "q_p10": 1510.7,
+     "q_p90": 3115.8,
+     "trig_prob": 0.82
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 667.3,
+     "q_p10": 627.2,
+     "q_p90": 846.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 413.7,
+     "q_p10": 372.4,
+     "q_p90": 709.3,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 1363.1,
+     "q_p10": 1136.0,
+     "q_p90": 2444.7,
+     "trig_prob": 0.36
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 1163.2,
+     "q_p10": 726.3,
+     "q_p90": 1792.8,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 499.9,
+     "q_p10": 301.7,
+     "q_p90": 574.6,
+     "trig_prob": 0.56
+    }
+   ]
+  },
+  "86881000": {
+   "metric": "level",
+   "trig_thr": 1300.0,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 15,
+   "peak_median": 1308.8,
+   "peak_date": "2026-08-27",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 745.7,
+     "q_p10": 742.2,
+     "q_p90": 745.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 671.7,
+     "q_p10": 671.7,
+     "q_p90": 671.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 804.0,
+     "q_p10": 804.0,
+     "q_p90": 804.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 674.6,
+     "q_p10": 674.6,
+     "q_p90": 674.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 371.8,
+     "q_p10": 338.0,
+     "q_p90": 415.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 195.3,
+     "q_p10": 172.3,
+     "q_p90": 221.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 1308.8,
+     "q_p10": 1302.9,
+     "q_p90": 1314.4,
+     "trig_prob": 1.0
+    }
+   ]
+  },
+  "86895000": {
+   "metric": "flow",
+   "trig_thr": 2083.1,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 8472.6,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 1365.5,
+     "q_p10": 1353.5,
+     "q_p90": 1378.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 507.1,
+     "q_p10": 507.1,
+     "q_p90": 521.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 4626.3,
+     "q_p10": 4571.6,
+     "q_p90": 4626.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1028.2,
+     "q_p10": 1015.5,
+     "q_p90": 1028.2,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 1290.2,
+     "q_p10": 1218.0,
+     "q_p90": 1294.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 8472.6,
+     "q_p10": 8446.1,
+     "q_p90": 8855.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 6756.3,
+     "q_p10": 5041.6,
+     "q_p90": 8605.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 1106.1,
+     "q_p10": 985.2,
+     "q_p90": 1278.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 3704.5,
+     "q_p10": 2800.0,
+     "q_p90": 5406.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 935.9,
+     "q_p10": 843.4,
+     "q_p90": 1038.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 715.5,
+     "q_p10": 601.9,
+     "q_p90": 907.1,
+     "trig_prob": 0.44
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 2929.5,
+     "q_p10": 2087.6,
+     "q_p90": 4715.3,
+     "trig_prob": 0.9
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 2516.7,
+     "q_p10": 1607.0,
+     "q_p90": 3482.3,
+     "trig_prob": 0.68
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 779.7,
+     "q_p10": 614.3,
+     "q_p90": 924.8,
+     "trig_prob": 0.66
+    }
+   ]
+  },
+  "86950000": {
+   "metric": "flow",
+   "trig_thr": 580.0,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 3,
+   "peak_median": 667.4,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 487.7,
+     "q_p10": 487.0,
+     "q_p90": 488.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 667.4,
+     "q_p10": 641.4,
+     "q_p90": 670.7,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 609.5,
+     "q_p10": 594.5,
+     "q_p90": 659.2,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 602.4,
+     "q_p10": 577.5,
+     "q_p90": 637.8,
+     "trig_prob": 0.84
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 584.9,
+     "q_p10": 575.6,
+     "q_p90": 658.5,
+     "trig_prob": 0.7
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 544.7,
+     "q_p10": 510.7,
+     "q_p90": 591.2,
+     "trig_prob": 0.24
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 564.0,
+     "q_p10": 519.7,
+     "q_p90": 598.9,
+     "trig_prob": 0.32
+    }
+   ]
+  },
+  "87020000": {
+   "metric": "level",
+   "trig_thr": 488.0,
+   "trigger_prob_15d": 0.18,
+   "trigger_horizon": 7,
+   "peak_median": 468.3,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 422.7,
+     "q_p10": 422.5,
+     "q_p90": 422.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 456.9,
+     "q_p10": 456.2,
+     "q_p90": 456.9,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 468.3,
+     "q_p10": 467.1,
+     "q_p90": 468.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 453.1,
+     "q_p10": 442.6,
+     "q_p90": 477.7,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 442.1,
+     "q_p10": 432.7,
+     "q_p90": 516.7,
+     "trig_prob": 0.18
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 427.1,
+     "q_p10": 413.7,
+     "q_p90": 497.1,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 433.8,
+     "q_p10": 398.2,
+     "q_p90": 488.8,
+     "trig_prob": 0.12
+    }
+   ]
+  },
+  "87160000": {
+   "metric": "flow",
+   "trig_thr": 150.5,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 392.4,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 241.9,
+     "q_p10": 162.0,
+     "q_p90": 273.1,
+     "trig_prob": 0.92
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 308.8,
+     "q_p10": 211.4,
+     "q_p90": 341.8,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 326.0,
+     "q_p10": 265.8,
+     "q_p90": 422.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 392.4,
+     "q_p10": 360.3,
+     "q_p90": 423.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 309.0,
+     "q_p10": 260.7,
+     "q_p90": 343.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 234.5,
+     "q_p10": 204.1,
+     "q_p90": 349.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 229.5,
+     "q_p10": 163.2,
+     "q_p90": 285.2,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 274.1,
+     "q_p10": 241.2,
+     "q_p90": 331.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 164.4,
+     "q_p10": 125.9,
+     "q_p90": 190.3,
+     "trig_prob": 0.74
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 262.5,
+     "q_p10": 230.1,
+     "q_p90": 300.6,
+     "trig_prob": 0.94
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 274.5,
+     "q_p10": 222.7,
+     "q_p90": 305.9,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 106.3,
+     "q_p10": 79.5,
+     "q_p90": 137.6,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 72.8,
+     "q_p10": 55.7,
+     "q_p90": 107.3,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 165.2,
+     "q_p10": 139.2,
+     "q_p90": 195.3,
+     "trig_prob": 0.08
+    }
+   ]
+  },
+  "87170000": {
+   "metric": "flow",
+   "trig_thr": 287.6,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 1099.6,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 246.8,
+     "q_p10": 234.7,
+     "q_p90": 265.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 694.7,
+     "q_p10": 663.8,
+     "q_p90": 703.9,
+     "trig_prob": 0.52
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 587.6,
+     "q_p10": 548.3,
+     "q_p90": 598.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1060.3,
+     "q_p10": 1017.9,
+     "q_p90": 1070.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 1099.6,
+     "q_p10": 959.6,
+     "q_p90": 1213.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 557.0,
+     "q_p10": 391.1,
+     "q_p90": 667.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 411.1,
+     "q_p10": 337.8,
+     "q_p90": 598.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 967.6,
+     "q_p10": 828.8,
+     "q_p90": 1138.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 391.1,
+     "q_p10": 265.8,
+     "q_p90": 549.3,
+     "trig_prob": 0.78
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 934.1,
+     "q_p10": 739.0,
+     "q_p90": 1037.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 781.1,
+     "q_p10": 684.2,
+     "q_p90": 971.3,
+     "trig_prob": 0.86
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 246.1,
+     "q_p10": 175.6,
+     "q_p90": 413.4,
+     "trig_prob": 0.26
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 182.9,
+     "q_p10": 134.5,
+     "q_p90": 276.2,
+     "trig_prob": 0.08
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 624.1,
+     "q_p10": 559.6,
+     "q_p90": 691.5,
+     "trig_prob": 0.12
+    }
+   ]
+  },
+  "87270000": {
+   "metric": "flow",
+   "trig_thr": 463.4,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 676.7,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 359.4,
+     "q_p10": 347.4,
+     "q_p90": 360.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 562.2,
+     "q_p10": 551.7,
+     "q_p90": 568.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 676.7,
+     "q_p10": 578.4,
+     "q_p90": 681.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 628.7,
+     "q_p10": 482.8,
+     "q_p90": 694.5,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 562.3,
+     "q_p10": 423.9,
+     "q_p90": 677.1,
+     "trig_prob": 0.78
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 385.4,
+     "q_p10": 320.7,
+     "q_p90": 563.9,
+     "trig_prob": 0.32
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 429.4,
+     "q_p10": 393.3,
+     "q_p90": 474.9,
+     "trig_prob": 0.16
+    }
+   ]
+  },
+  "87300000": {
+   "metric": "level",
+   "trig_thr": 245.0,
+   "trigger_prob_15d": 0.16,
+   "trigger_horizon": 7,
+   "peak_median": 190.2,
+   "peak_date": "2026-08-17",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 120.4,
+     "q_p10": 119.2,
+     "q_p90": 123.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 145.2,
+     "q_p10": 145.2,
+     "q_p90": 145.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 168.3,
+     "q_p10": 168.3,
+     "q_p90": 169.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 190.2,
+     "q_p10": 181.4,
+     "q_p90": 196.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 183.2,
+     "q_p10": 172.0,
+     "q_p90": 252.0,
+     "trig_prob": 0.16
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 158.7,
+     "q_p10": 147.3,
+     "q_p90": 177.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 147.0,
+     "q_p10": 132.1,
+     "q_p90": 207.5,
+     "trig_prob": 0.0
+    }
+   ]
+  },
+  "87317030": {
+   "metric": "flow",
+   "trig_thr": 58.8,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 2,
+   "peak_median": 313.0,
+   "peak_date": "2026-08-15",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 52.4,
+     "q_p10": 47.8,
+     "q_p90": 66.9,
+     "trig_prob": 0.44
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 230.1,
+     "q_p10": 227.3,
+     "q_p90": 246.4,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 134.0,
+     "q_p10": 134.0,
+     "q_p90": 187.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 289.7,
+     "q_p10": 282.3,
+     "q_p90": 302.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 313.0,
+     "q_p10": 279.5,
+     "q_p90": 318.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 137.5,
+     "q_p10": 127.3,
+     "q_p90": 173.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 104.6,
+     "q_p10": 85.3,
+     "q_p90": 121.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 279.7,
+     "q_p10": 264.9,
+     "q_p90": 282.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 82.5,
+     "q_p10": 65.4,
+     "q_p90": 93.1,
+     "trig_prob": 0.94
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 223.4,
+     "q_p10": 213.0,
+     "q_p90": 231.3,
+     "trig_prob": 0.7
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 219.9,
+     "q_p10": 210.0,
+     "q_p90": 242.1,
+     "trig_prob": 0.68
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 48.9,
+     "q_p10": 38.0,
+     "q_p90": 69.5,
+     "trig_prob": 0.3
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 38.5,
+     "q_p10": 28.9,
+     "q_p90": 45.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 204.6,
+     "q_p10": 195.0,
+     "q_p90": 220.7,
+     "trig_prob": 0.14
+    }
+   ]
+  },
+  "87380000": {
+   "metric": "flow",
+   "trig_thr": 237.4,
+   "trigger_prob_15d": 0.84,
+   "trigger_horizon": 3,
+   "peak_median": 636.1,
+   "peak_date": "2026-08-19",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 154.9,
+     "q_p10": 152.1,
+     "q_p90": 155.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 516.9,
+     "q_p10": 514.1,
+     "q_p90": 518.1,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 189.6,
+     "q_p10": 184.1,
+     "q_p90": 190.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 571.3,
+     "q_p10": 565.5,
+     "q_p90": 578.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 593.5,
+     "q_p10": 563.0,
+     "q_p90": 600.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 265.1,
+     "q_p10": 220.7,
+     "q_p90": 269.9,
+     "trig_prob": 0.84
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 286.8,
+     "q_p10": 201.0,
+     "q_p90": 319.2,
+     "trig_prob": 0.8
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 573.4,
+     "q_p10": 514.8,
+     "q_p90": 640.3,
+     "trig_prob": 0.38
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 298.4,
+     "q_p10": 208.2,
+     "q_p90": 344.9,
+     "trig_prob": 0.58
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 636.1,
+     "q_p10": 569.5,
+     "q_p90": 657.5,
+     "trig_prob": 0.56
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 593.7,
+     "q_p10": 542.1,
+     "q_p90": 642.1,
+     "trig_prob": 0.42
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 236.5,
+     "q_p10": 170.9,
+     "q_p90": 283.5,
+     "trig_prob": 0.48
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 200.1,
+     "q_p10": 157.8,
+     "q_p90": 266.9,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 573.6,
+     "q_p10": 521.4,
+     "q_p90": 619.7,
+     "trig_prob": 0.16
+    }
+   ]
+  },
+  "87382000": {
+   "metric": "flow",
+   "trig_thr": 270.6,
+   "trigger_prob_15d": 0.96,
+   "trigger_horizon": 5,
+   "peak_median": 455.5,
+   "peak_date": "2026-08-17",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 173.0,
+     "q_p10": 170.3,
+     "q_p90": 175.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 364.5,
+     "q_p10": 363.5,
+     "q_p90": 369.6,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 218.0,
+     "q_p10": 198.8,
+     "q_p90": 218.0,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 381.1,
+     "q_p10": 376.2,
+     "q_p90": 381.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 383.7,
+     "q_p10": 377.9,
+     "q_p90": 401.6,
+     "trig_prob": 0.46
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 234.2,
+     "q_p10": 219.3,
+     "q_p90": 271.6,
+     "trig_prob": 0.46
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 342.8,
+     "q_p10": 284.6,
+     "q_p90": 489.3,
+     "trig_prob": 0.94
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 455.5,
+     "q_p10": 416.2,
+     "q_p90": 484.9,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 350.7,
+     "q_p10": 241.6,
+     "q_p90": 482.0,
+     "trig_prob": 0.8
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 431.6,
+     "q_p10": 397.4,
+     "q_p90": 462.8,
+     "trig_prob": 0.86
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 438.2,
+     "q_p10": 379.7,
+     "q_p90": 493.6,
+     "trig_prob": 0.86
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 320.7,
+     "q_p10": 230.6,
+     "q_p90": 518.2,
+     "trig_prob": 0.76
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 293.7,
+     "q_p10": 190.2,
+     "q_p90": 448.9,
+     "trig_prob": 0.6
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 408.1,
+     "q_p10": 353.8,
+     "q_p90": 474.2,
+     "trig_prob": 0.6
+    }
+   ]
+  },
+  "87399000": {
+   "metric": "flow",
+   "trig_thr": 82.1,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 451.3,
+   "peak_date": "2026-08-27",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 91.1,
+     "q_p10": 89.8,
+     "q_p90": 92.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 433.0,
+     "q_p10": 430.8,
+     "q_p90": 434.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 92.5,
+     "q_p10": 90.6,
+     "q_p90": 102.1,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 416.8,
+     "q_p10": 416.3,
+     "q_p90": 426.3,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 437.6,
+     "q_p10": 436.5,
+     "q_p90": 458.2,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 90.8,
+     "q_p10": 90.3,
+     "q_p90": 109.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 94.1,
+     "q_p10": 79.5,
+     "q_p90": 128.4,
+     "trig_prob": 0.88
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 437.0,
+     "q_p10": 429.7,
+     "q_p90": 460.7,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 78.5,
+     "q_p10": 69.5,
+     "q_p90": 102.2,
+     "trig_prob": 0.32
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 430.5,
+     "q_p10": 416.1,
+     "q_p90": 451.7,
+     "trig_prob": 0.92
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 440.1,
+     "q_p10": 407.6,
+     "q_p90": 477.2,
+     "trig_prob": 0.84
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 83.9,
+     "q_p10": 70.2,
+     "q_p90": 110.4,
+     "trig_prob": 0.54
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 86.8,
+     "q_p10": 67.1,
+     "q_p90": 102.3,
+     "trig_prob": 0.6
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 451.3,
+     "q_p10": 418.5,
+     "q_p90": 474.0,
+     "trig_prob": 0.9
+    }
+   ]
+  },
+  "87450100": {
+   "metric": "flow",
+   "trig_thr": 5.8,
+   "trigger_prob_15d": 1.0,
+   "trigger_horizon": 1,
+   "peak_median": 69.6,
+   "peak_date": "2026-08-14",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 10.8,
+     "q_p10": 9.2,
+     "q_p90": 15.7,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 63.6,
+     "q_p10": 53.8,
+     "q_p90": 68.9,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 17.5,
+     "q_p10": 14.6,
+     "q_p90": 17.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 69.6,
+     "q_p10": 65.8,
+     "q_p90": 69.6,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 54.5,
+     "q_p10": 51.4,
+     "q_p90": 59.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 8.3,
+     "q_p10": 8.2,
+     "q_p90": 10.5,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 6.2,
+     "q_p10": 6.0,
+     "q_p90": 7.0,
+     "trig_prob": 0.96
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 47.0,
+     "q_p10": 45.8,
+     "q_p90": 49.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 4.3,
+     "q_p10": 4.0,
+     "q_p90": 5.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 51.7,
+     "q_p10": 47.6,
+     "q_p90": 53.8,
+     "trig_prob": 1.0
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 41.6,
+     "q_p10": 39.8,
+     "q_p90": 43.0,
+     "trig_prob": 0.66
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 3.6,
+     "q_p10": 2.6,
+     "q_p90": 4.2,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 4.0,
+     "q_p10": 3.6,
+     "q_p90": 4.7,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 48.2,
+     "q_p10": 46.5,
+     "q_p90": 52.8,
+     "trig_prob": 1.0
+    }
+   ]
+  },
+  "87905000": {
+   "metric": "flow",
+   "trig_thr": 1358.7,
+   "trigger_prob_15d": 0.86,
+   "trigger_horizon": 3,
+   "peak_median": 1698.3,
+   "peak_date": "2026-08-17",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 638.2,
+     "q_p10": 622.4,
+     "q_p90": 659.3,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 309.5,
+     "q_p10": 306.9,
+     "q_p90": 311.4,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 1264.3,
+     "q_p10": 1146.0,
+     "q_p90": 1452.2,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 439.9,
+     "q_p10": 397.9,
+     "q_p90": 462.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 503.7,
+     "q_p10": 422.3,
+     "q_p90": 544.9,
+     "trig_prob": 0.86
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 1529.0,
+     "q_p10": 1240.1,
+     "q_p90": 1754.0,
+     "trig_prob": 0.84
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 1698.3,
+     "q_p10": 1172.7,
+     "q_p90": 2095.7,
+     "trig_prob": 0.7
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 507.3,
+     "q_p10": 456.6,
+     "q_p90": 550.2,
+     "trig_prob": 0.7
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 1693.4,
+     "q_p10": 1073.9,
+     "q_p90": 2532.4,
+     "trig_prob": 0.76
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 539.9,
+     "q_p10": 444.0,
+     "q_p90": 622.3,
+     "trig_prob": 0.86
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 424.3,
+     "q_p10": 367.0,
+     "q_p90": 504.6,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 994.8,
+     "q_p10": 794.5,
+     "q_p90": 1456.3,
+     "trig_prob": 0.22
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 950.1,
+     "q_p10": 635.6,
+     "q_p90": 1389.2,
+     "trig_prob": 0.14
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 411.0,
+     "q_p10": 355.7,
+     "q_p90": 536.1,
+     "trig_prob": 0.22
+    }
+   ]
+  },
+  "88260000": {
+   "metric": "flow",
+   "trig_thr": 606.2,
+   "trigger_prob_15d": 0.98,
+   "trigger_horizon": 2,
+   "peak_median": 896.0,
+   "peak_date": "2026-08-19",
+   "points": [
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 380.2,
+     "q_p10": 374.7,
+     "q_p90": 389.5,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 1,
+     "date": "2026-08-13",
+     "q_median": 422.0,
+     "q_p10": 420.2,
+     "q_p90": 424.0,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 398.7,
+     "q_p10": 295.8,
+     "q_p90": 473.4,
+     "trig_prob": 0.02
+    },
+    {
+     "horizon": 2,
+     "date": "2026-08-14",
+     "q_median": 464.6,
+     "q_p10": 451.7,
+     "q_p90": 496.1,
+     "trig_prob": 0.98
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 458.9,
+     "q_p10": 449.5,
+     "q_p90": 506.7,
+     "trig_prob": 0.9
+    },
+    {
+     "horizon": 3,
+     "date": "2026-08-15",
+     "q_median": 438.9,
+     "q_p10": 290.7,
+     "q_p90": 506.7,
+     "trig_prob": 0.04
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 548.6,
+     "q_p10": 390.9,
+     "q_p90": 737.4,
+     "trig_prob": 0.28
+    },
+    {
+     "horizon": 5,
+     "date": "2026-08-17",
+     "q_median": 507.9,
+     "q_p10": 385.1,
+     "q_p90": 534.8,
+     "trig_prob": 0.64
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 896.0,
+     "q_p10": 398.0,
+     "q_p90": 896.0,
+     "trig_prob": 0.68
+    },
+    {
+     "horizon": 7,
+     "date": "2026-08-19",
+     "q_median": 533.4,
+     "q_p10": 404.1,
+     "q_p90": 592.5,
+     "trig_prob": 0.74
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 458.5,
+     "q_p10": 341.2,
+     "q_p90": 555.4,
+     "trig_prob": 0.54
+    },
+    {
+     "horizon": 10,
+     "date": "2026-08-22",
+     "q_median": 484.8,
+     "q_p10": 211.6,
+     "q_p90": 645.6,
+     "trig_prob": 0.44
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 267.3,
+     "q_p10": 154.0,
+     "q_p90": 446.8,
+     "trig_prob": 0.0
+    },
+    {
+     "horizon": 15,
+     "date": "2026-08-27",
+     "q_median": 418.0,
+     "q_p10": 374.1,
+     "q_p90": 435.1,
+     "trig_prob": 0.02
+    }
+   ]
+  }
+ }
+}

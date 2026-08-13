@@ -41,14 +41,19 @@ SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 SERIF = "Georgia, 'Iowan Old Style', 'Times New Roman', serif"
 
 # escala de severidade -- reservada, nunca reaproveitada para outra coisa
+# "normal" em verde (nao cinza) pra nao confundir com "sem_dado" no mapa
 STATUS_COLORS = {
-    "normal": "#9C9A93",
+    "normal": "#5B8C6E",
     "elevado": "#C99A56",
     "alto": "#C1652E",
     "extremo": ACCENT,
-    "sem_dado": "#D4D2CB",
+    "sem_dado": "#C7C4BC",
 }
 STATUS_LABEL = hydro.STATUS_LABEL
+
+TREND_SYMBOL = {"up": "▲", "down": "▼", "flat": "="}
+TREND_COLOR = {"up": ACCENT, "down": LINE_BLUE, "flat": INK_MUTED}
+TREND_HORIZON_DAYS = 3   # "proximos dias" -- primeiro horizonte de forecast >= isso
 
 st.markdown(f"""
 <style>
@@ -136,8 +141,29 @@ def load_current(code: str) -> pd.DataFrame:
     return df.sort_index()
 
 
+@st.cache_data
+def load_forecast() -> dict:
+    """Previsao operacional (ensemble ECMWF, ~15d) importada do RIVERFLOW --
+    atualizada manualmente via etl/import_forecast.py, nao pelo job horario."""
+    p = DATA / "forecast.json"
+    if not p.exists():
+        return {}
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+@st.cache_data
+def load_rain_forecast() -> dict:
+    """Grade de chuva acumulada prevista (ensemble ECMWF) -- mesma origem e
+    mesma cadencia de atualizacao manual do load_forecast() acima."""
+    p = DATA / "rain_forecast.json"
+    if not p.exists():
+        return {}
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
 METRIC_LABEL = {"flow": "Vazão", "level": "Nível"}
 EXCESS_LABEL = {"flow": "Excesso de vazão acumulado", "level": "Excesso de nível acumulado"}
+FORECAST_COLOR = "#8A5C3B"
 
 
 def season_month_ticks() -> tuple[list[int], list[str]]:
@@ -227,8 +253,28 @@ def pick_default_code(df: pd.DataFrame) -> str:
     return df.sort_values("name").iloc[0]["code"]
 
 
+def forecast_trend(fc_stations: dict, code: str, last_value) -> str | None:
+    """'up'/'down'/'flat' comparando a leitura mais recente com a mediana do
+    forecast no primeiro horizonte >= TREND_HORIZON_DAYS. None se a estacao
+    nao tiver forecast ou leitura recente."""
+    fc = fc_stations.get(code)
+    if not fc or not last_value:
+        return None
+    pt = next((p for p in fc["points"] if p["horizon"] >= TREND_HORIZON_DAYS), None)
+    if not pt:
+        return None
+    delta = (pt["q_median"] - last_value) / last_value
+    if delta > 0.05:
+        return "up"
+    if delta < -0.05:
+        return "down"
+    return "flat"
+
+
 status = load_status()
 baseline = load_baseline()
+forecast = load_forecast()
+rain_forecast = load_rain_forecast()
 df = pd.DataFrame(status["stations"])
 # status.json e baseline.json sao escritos por jobs diferentes (bot horario
 # vs. seed manual) e podem, por uma janela curta durante um redeploy, ficar
@@ -277,9 +323,9 @@ c4.metric("Última atualização", status["updated_utc"].split(" ")[0],
 st.write("")
 
 # ============================================================================
-# Explorar / Tabela
+# Explorar / Previsão / Tabela
 # ============================================================================
-tab_explore, tab_table = st.tabs(["Explorar", "Tabela completa"])
+tab_explore, tab_forecast, tab_table = st.tabs(["Explorar", "Previsão", "Tabela completa"])
 
 # --------------------------------------------------------------------------
 with tab_explore:
@@ -308,6 +354,20 @@ with tab_explore:
                           "<br>Rank do excesso acumulado (%{customdata[5]}): %{customdata[3]}%"
                           "<br>%{customdata[4]}<extra></extra>",
         ))
+
+    # tendencia (previsao ~3d+) -- so nas estacoes com forecast; pequeno
+    # deslocamento pro norte pra nao cobrir a bolinha de status
+    mapdf["trend"] = mapdf.apply(
+        lambda r: forecast_trend(forecast.get("stations", {}), r["code"], r["last_value"]),
+        axis=1)
+    for trend, sub in mapdf.dropna(subset=["trend"]).groupby("trend"):
+        fig_map.add_trace(go.Scattermap(
+            lat=sub["lat"] + 0.09, lon=sub["lon"], mode="text",
+            text=[TREND_SYMBOL[trend]] * len(sub),
+            textfont=dict(size=14, color=TREND_COLOR[trend]),
+            hoverinfo="skip", showlegend=False,
+        ))
+
     fig_map.update_layout(
         map=dict(style="open-street-map", center=dict(lat=-29.7, lon=-53.2), zoom=5.3),
         height=460, margin=dict(l=0, r=0, t=0, b=0),
@@ -329,7 +389,12 @@ with tab_explore:
                 st.session_state.selected_code = clicked_code
         st.markdown(
             '<div class="note-box">Cor = status da leitura mais recente frente aos '
-            'percentis <b>P90 / P97 / P99 da própria estação</b>.</div>',
+            'percentis <b>P90 / P97 / P99 da própria estação</b>. '
+            f'<span style="color:{TREND_COLOR["up"]}">▲</span> / '
+            f'<span style="color:{TREND_COLOR["down"]}">▼</span> / '
+            f'<span style="color:{TREND_COLOR["flat"]}">=</span> = tendência da '
+            f'previsão (~{TREND_HORIZON_DAYS}d+) frente à leitura de hoje, quando '
+            'a estação tem forecast.</div>',
             unsafe_allow_html=True)
 
     with detail_col:
@@ -428,10 +493,41 @@ with tab_explore:
         fig.add_trace(go.Scatter(x=[disp["days"][-1]], y=[disp["values"][-1]],
                                  mode="markers", marker=dict(color=LINE_BLUE, size=9,
                                  line=dict(color=PANEL_BG, width=1.5)), showlegend=False))
+
+    # ---- Previsao (ensemble ECMWF, ~15d) -- so faz sentido sobre a temporada
+    # ao vivo, e so quando a metrica em tela e a que o forecast do RIVERFLOW
+    # produz pra essa estacao (o modelo so roda pra vazao OU nivel, o que a
+    # estacao tiver -- igual a metrica primaria daqui)
+    fc = (forecast.get("stations", {}).get(code) if disp["is_current"] and disp["values"] else None)
+    if fc and fc["metric"] == metric:
+        fc_days = hydro.season_day(pd.to_datetime([p["date"] for p in fc["points"]]),
+                                   status["season_year"]).tolist()
+        anchor_day, anchor_val = disp["days"][-1], disp["values"][-1]
+        fc_x = [anchor_day] + fc_days
+        fc_median = [anchor_val] + [p["q_median"] for p in fc["points"]]
+        fc_p10 = [anchor_val] + [p["q_p10"] for p in fc["points"]]
+        fc_p90 = [anchor_val] + [p["q_p90"] for p in fc["points"]]
+        fig.add_trace(go.Scatter(x=fc_x, y=fc_p90, mode="lines",
+                                 line=dict(width=0), showlegend=False, hoverinfo="skip"))
+        fig.add_trace(go.Scatter(x=fc_x, y=fc_p10, mode="lines",
+                                 name="Previsão P10–P90", line=dict(width=0),
+                                 fill="tonexty", fillcolor="rgba(138,92,59,.16)",
+                                 hoverinfo="skip"))
+        fig.add_trace(go.Scatter(x=fc_x, y=fc_median, mode="lines+markers",
+                                 name="Previsão (mediana ensemble)",
+                                 line=dict(color=FORECAST_COLOR, width=2, dash="dash"),
+                                 marker=dict(size=5)))
+        fig.add_vline(x=anchor_day, line=dict(color=INK_MUTED, width=1, dash="dot"),
+                      annotation_text="hoje", annotation_font_size=9)
     fig.update_xaxes(title_text="Data (mm-dd)", tickmode="array",
                      tickvals=SEASON_TICKVALS, ticktext=SEASON_TICKTEXT)
     fig.update_yaxes(title_text=f"{METRIC_LABEL[metric]} ({info['unit']})")
     st.plotly_chart(styled(fig, height=430), width="stretch")
+    if fc and fc["metric"] == metric:
+        issued_dt = forecast.get("issued", "")[:16].replace("T", " ")
+        st.caption(f"Previsão: ensemble ECMWF (50 membros), modelo rainfall-runoff por "
+                  f"estação · emitida {issued_dt} UTC · gatilho de referência P95 = "
+                  f"{fc['trig_thr']:.1f} {info['unit']}.")
 
     with st.expander(f"Ver detalhe do {EXCESS_LABEL[metric].lower()}"):
         env = info["envelope"]
@@ -467,6 +563,62 @@ with tab_explore:
         st.caption(f"{EXCESS_LABEL[metric]} = soma dos excessos diários de "
                   f"{METRIC_LABEL[metric].lower()} acima do limiar histórico P97 da "
                   f"própria estação, acumulada ao longo da temporada.")
+
+# --------------------------------------------------------------------------
+with tab_forecast:
+    if not forecast.get("stations"):
+        st.info("Previsão ainda não importada. Rode `etl/import_forecast.py` "
+                "(e `etl/import_rain_forecast.py`) a partir do RIVERFLOW.")
+    else:
+        issued_dt = forecast.get("issued", "")[:16].replace("T", " ")
+        st.caption(f"Previsão operacional — ensemble ECMWF (50 membros), ~15 dias · "
+                  f"emitida {issued_dt} UTC · atualizada manualmente, não faz parte "
+                  f"do job horário de telemetria.")
+
+        st.markdown("**Estações em risco de ultrapassar o P95 nos próximos 15 dias**")
+        risk_rows = []
+        for code, fc in forecast["stations"].items():
+            match = df[df["code"] == code]
+            if match.empty:
+                continue
+            m = match.iloc[0]
+            risk_rows.append({
+                "Estação": m["name"], "Rio": m["river"] or "—",
+                "Métrica": METRIC_LABEL[fc["metric"]],
+                "Prob. 15d (%)": round(fc["trigger_prob_15d"] * 100),
+                "Pico previsto": f"{fc['peak_median']:.1f} {m['unit']}",
+                "Data do pico": fc["peak_date"],
+            })
+        risk_df = pd.DataFrame(risk_rows).sort_values("Prob. 15d (%)", ascending=False)
+        n_flagged = int((risk_df["Prob. 15d (%)"] >= 30).sum())
+        st.caption(f"{n_flagged} de {len(risk_df)} estações com probabilidade ≥ 30% de "
+                  f"cruzar o P95 (gatilho de referência) em algum dia dos próximos "
+                  f"15 dias — fração dos 50 membros do ensemble que cruzam o limiar.")
+        st.dataframe(
+            risk_df, width="stretch", hide_index=True, height=340,
+            column_config={
+                "Prob. 15d (%)": st.column_config.ProgressColumn(
+                    "Prob. 15d (%)", min_value=0, max_value=100, format="%.0f%%"),
+            },
+        )
+
+        st.write("")
+        horizon = rain_forecast.get("horizon_days", 15)
+        st.markdown(f"**Chuva acumulada prevista — próximos {horizon} dias "
+                   f"(média do ensemble)**")
+        rain_map_path = DATA / "rain_map.png"
+        if rain_map_path.exists():
+            st.image(str(rain_map_path), width="stretch")
+            st.caption("Precipitação acumulada média do ensemble ECMWF (50 membros), "
+                      "somada dia a dia até o horizonte de 15 dias, krigada a partir da "
+                      "grade nativa (~0,25°) e recortada exatamente no contorno do RS "
+                      "(IBGE). Escala em faixas fixas (0–300mm), como em mapas "
+                      "meteorológicos, pra ler igual em qualquer atualização. É a "
+                      "chuva-fonte que alimenta o modelo de vazão/nível de cada estação "
+                      "— não é, em si, uma previsão por bacia hidrográfica.")
+        else:
+            st.info("Mapa de chuva ainda não gerado. Rode `etl/import_rain_forecast.py` "
+                    "e depois `etl/render_rain_map.py`.")
 
 # --------------------------------------------------------------------------
 with tab_table:
