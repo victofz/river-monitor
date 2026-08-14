@@ -51,7 +51,10 @@ STATUS_COLORS = {
 }
 STATUS_LABEL = hydro.STATUS_LABEL
 
-TREND_SYMBOL = {"up": "▲", "down": "▼", "flat": "="}
+# glifos ASCII: o conjunto de glifos do estilo OSM/MapLibre nao inclui
+# setas unicode (a camada de texto some silenciosamente com ▲/▼)
+TREND_SYMBOL = {"up": "^", "down": "v", "flat": "="}
+TREND_LABEL = {"up": "subindo", "down": "descendo", "flat": "estável"}
 TREND_COLOR = {"up": ACCENT, "down": LINE_BLUE, "flat": INK_MUTED}
 TREND_HORIZON_DAYS = 3   # "proximos dias" -- primeiro horizonte de forecast >= isso
 
@@ -253,22 +256,26 @@ def pick_default_code(df: pd.DataFrame) -> str:
     return df.sort_values("name").iloc[0]["code"]
 
 
-def forecast_trend(fc_stations: dict, code: str, last_value) -> str | None:
-    """'up'/'down'/'flat' comparando a leitura mais recente com a mediana do
-    forecast no primeiro horizonte >= TREND_HORIZON_DAYS. None se a estacao
-    nao tiver forecast ou leitura recente."""
-    fc = fc_stations.get(code)
+def station_forecast(code: str, metric: str) -> dict | None:
+    """Forecast da estacao PARA A METRICA pedida (o RIVERFLOW preve vazao e
+    nivel separadamente), ou None se nao houver."""
+    return forecast.get("stations", {}).get(code, {}).get("metrics", {}).get(metric)
+
+
+def forecast_trend(code: str, metric: str, last_value) -> dict | None:
+    """Tendencia prevista frente a leitura de hoje: dict com direction
+    ('up'/'down'/'flat'), variacao % e o valor/prob previstos no primeiro
+    horizonte >= TREND_HORIZON_DAYS. None se nao houver forecast/leitura."""
+    fc = station_forecast(code, metric)
     if not fc or not last_value:
         return None
     pt = next((p for p in fc["points"] if p["horizon"] >= TREND_HORIZON_DAYS), None)
     if not pt:
         return None
-    delta = (pt["q_median"] - last_value) / last_value
-    if delta > 0.05:
-        return "up"
-    if delta < -0.05:
-        return "down"
-    return "flat"
+    pct = (pt["q_median"] - last_value) / last_value * 100
+    direction = "up" if pct > 5 else ("down" if pct < -5 else "flat")
+    return {"direction": direction, "pct": pct, "horizon": pt["horizon"],
+            "q_median": pt["q_median"], "trigger_prob_15d": fc["trigger_prob_15d"]}
 
 
 status = load_status()
@@ -337,6 +344,42 @@ with tab_explore:
         st.session_state.selected_season = "current"
 
     mapdf = df.dropna(subset=["lat", "lon"]).copy()
+
+    # texto do hover montado aqui (em vez de no hovertemplate) -- cada linha
+    # depende de dados que podem faltar (forecast, leitura), entao formatar
+    # em Python evita "None"/"nan" aparecendo no rotulo
+    def hover_fields(row) -> pd.Series:
+        metric = row["data_type"]
+        mlabel = METRIC_LABEL[metric]
+        if row["last_value"] is None or pd.isna(row["last_value"]):
+            reading = "Sem leitura recente"
+        else:
+            days = row["days_since"]
+            quando = ("hoje" if days == 0 else
+                      f"há {int(days)} dia{'s' if days != 1 else ''}")
+            reading = (f"{mlabel} hoje: <b>{row['last_value']:.1f} {row['unit']}</b> "
+                       f"({STATUS_LABEL[row['status']]}, {quando})")
+
+        rank = ("Excesso acumulado na temporada: sem dado"
+                if pd.isna(row["cei_pct_rank"]) else
+                f"Excesso acumulado: acima de {row['cei_pct_rank']:.0f}% das temporadas")
+
+        tr = forecast_trend(row["code"], metric, row["last_value"])
+        if tr is None:
+            trend_txt, risk_txt = "Previsão: não disponível", ""
+            direction = None
+        else:
+            direction = tr["direction"]
+            trend_txt = (f"Previsão {tr['horizon']}d: <b>{TREND_LABEL[direction]}</b> "
+                         f"({tr['pct']:+.0f}%, {tr['q_median']:.1f} {row['unit']})")
+            risk_txt = (f"Risco de passar do P95 em 15d: "
+                        f"<b>{tr['trigger_prob_15d'] * 100:.0f}%</b>")
+        return pd.Series({"hover_reading": reading, "hover_rank": rank,
+                          "hover_trend": trend_txt, "hover_risk": risk_txt,
+                          "trend_dir": direction})
+
+    mapdf = pd.concat([mapdf, mapdf.apply(hover_fields, axis=1)], axis=1)
+
     fig_map = go.Figure()
     for stt in ["normal", "elevado", "alto", "extremo", "sem_dado"]:
         sub = mapdf[mapdf["status"] == stt]
@@ -347,24 +390,23 @@ with tab_explore:
             marker=dict(size=12, color=STATUS_COLORS[stt]),
             name=STATUS_LABEL[stt],
             text=sub["name"] + " — " + sub["river"].fillna(""),
-            customdata=sub.assign(
-                metric_label=sub["data_type"].map(METRIC_LABEL)
-            )[["code", "last_value", "unit", "cei_pct_rank", "last_date", "metric_label"]].values,
-            hovertemplate="<b>%{text}</b><br>Última leitura: %{customdata[1]} %{customdata[2]}"
-                          "<br>Rank do excesso acumulado (%{customdata[5]}): %{customdata[3]}%"
-                          "<br>%{customdata[4]}<extra></extra>",
+            customdata=sub[["code", "hover_reading", "hover_rank",
+                             "hover_trend", "hover_risk"]].values,
+            hovertemplate="<b>%{text}</b><br>%{customdata[1]}<br>%{customdata[2]}"
+                          "<br>%{customdata[3]}<br>%{customdata[4]}<extra></extra>",
         ))
 
-    # tendencia (previsao ~3d+) -- so nas estacoes com forecast; pequeno
-    # deslocamento pro norte pra nao cobrir a bolinha de status
-    mapdf["trend"] = mapdf.apply(
-        lambda r: forecast_trend(forecast.get("stations", {}), r["code"], r["last_value"]),
-        axis=1)
-    for trend, sub in mapdf.dropna(subset=["trend"]).groupby("trend"):
+    # tendencia prevista (~3d) -- so nas estacoes com forecast, deslocada pro
+    # norte pra nao cobrir a bolinha. Glifos ASCII e marcador invisivel de
+    # ancora: o MapLibre nao desenha uma camada mode="text" pura, e nao tem
+    # setas unicode no conjunto de glifos do estilo OSM
+    for direction, sub in mapdf.dropna(subset=["trend_dir"]).groupby("trend_dir"):
         fig_map.add_trace(go.Scattermap(
-            lat=sub["lat"] + 0.09, lon=sub["lon"], mode="text",
-            text=[TREND_SYMBOL[trend]] * len(sub),
-            textfont=dict(size=14, color=TREND_COLOR[trend]),
+            lat=sub["lat"] + 0.13, lon=sub["lon"], mode="markers+text",
+            marker=dict(size=1, color="rgba(0,0,0,0)"),
+            text=[TREND_SYMBOL[direction]] * len(sub),
+            textposition="top center",
+            textfont=dict(size=17, color=TREND_COLOR[direction]),
             hoverinfo="skip", showlegend=False,
         ))
 
@@ -389,12 +431,12 @@ with tab_explore:
                 st.session_state.selected_code = clicked_code
         st.markdown(
             '<div class="note-box">Cor = status da leitura mais recente frente aos '
-            'percentis <b>P90 / P97 / P99 da própria estação</b>. '
-            f'<span style="color:{TREND_COLOR["up"]}">▲</span> / '
-            f'<span style="color:{TREND_COLOR["down"]}">▼</span> / '
-            f'<span style="color:{TREND_COLOR["flat"]}">=</span> = tendência da '
-            f'previsão (~{TREND_HORIZON_DAYS}d+) frente à leitura de hoje, quando '
-            'a estação tem forecast.</div>',
+            'percentis <b>P90 / P97 / P99 da própria estação</b>. Acima do ponto, '
+            f'a tendência prevista para ~{TREND_HORIZON_DAYS} dias: '
+            f'<b style="color:{TREND_COLOR["up"]}">^</b> subindo · '
+            f'<b style="color:{TREND_COLOR["down"]}">v</b> descendo · '
+            f'<b style="color:{TREND_COLOR["flat"]}">=</b> estável. '
+            'Passe o mouse para ver leitura, tendência e risco.</div>',
             unsafe_allow_html=True)
 
     with detail_col:
@@ -494,12 +536,10 @@ with tab_explore:
                                  mode="markers", marker=dict(color=LINE_BLUE, size=9,
                                  line=dict(color=PANEL_BG, width=1.5)), showlegend=False))
 
-    # ---- Previsao (ensemble ECMWF, ~15d) -- so faz sentido sobre a temporada
-    # ao vivo, e so quando a metrica em tela e a que o forecast do RIVERFLOW
-    # produz pra essa estacao (o modelo so roda pra vazao OU nivel, o que a
-    # estacao tiver -- igual a metrica primaria daqui)
-    fc = (forecast.get("stations", {}).get(code) if disp["is_current"] and disp["values"] else None)
-    if fc and fc["metric"] == metric:
+    # ---- Previsao (ensemble ECMWF, ~15d) -- so sobre a temporada ao vivo, e
+    # so da metrica em tela (o RIVERFLOW preve vazao e nivel separadamente)
+    fc = station_forecast(code, metric) if disp["is_current"] and disp["values"] else None
+    if fc:
         fc_days = hydro.season_day(pd.to_datetime([p["date"] for p in fc["points"]]),
                                    status["season_year"]).tolist()
         anchor_day, anchor_val = disp["days"][-1], disp["values"][-1]
@@ -507,27 +547,40 @@ with tab_explore:
         fc_median = [anchor_val] + [p["q_median"] for p in fc["points"]]
         fc_p10 = [anchor_val] + [p["q_p10"] for p in fc["points"]]
         fc_p90 = [anchor_val] + [p["q_p90"] for p in fc["points"]]
+        # customdata alinhado com fc_x (a ancora e "hoje", nao tem previsao)
+        fc_meta = [("hoje", 0.0, anchor_val, anchor_val)] + [
+            (f"+{p['horizon']}d", p["trig_prob"], p["q_p10"], p["q_p90"])
+            for p in fc["points"]]
         fig.add_trace(go.Scatter(x=fc_x, y=fc_p90, mode="lines",
                                  line=dict(width=0), showlegend=False, hoverinfo="skip"))
         fig.add_trace(go.Scatter(x=fc_x, y=fc_p10, mode="lines",
                                  name="Previsão P10–P90", line=dict(width=0),
                                  fill="tonexty", fillcolor="rgba(138,92,59,.16)",
                                  hoverinfo="skip"))
-        fig.add_trace(go.Scatter(x=fc_x, y=fc_median, mode="lines+markers",
-                                 name="Previsão (mediana ensemble)",
-                                 line=dict(color=FORECAST_COLOR, width=2, dash="dash"),
-                                 marker=dict(size=5)))
+        fig.add_trace(go.Scatter(
+            x=fc_x, y=fc_median, mode="lines+markers",
+            name="Previsão (mediana ensemble)",
+            line=dict(color=FORECAST_COLOR, width=2, dash="dash"),
+            marker=dict(size=5),
+            customdata=[[m[0], m[1] * 100, m[2], m[3], d]
+                        for m, d in zip(fc_meta, [None] + [p["date"] for p in fc["points"]])],
+            hovertemplate="<b>%{customdata[0]}</b> (%{customdata[4]})<br>"
+                          f"Mediana: %{{y:.1f}} {info['unit']}<br>"
+                          f"Faixa provável: %{{customdata[2]:.1f}}–%{{customdata[3]:.1f}} {info['unit']}<br>"
+                          "Membros acima do P95: %{customdata[1]:.0f}%<extra></extra>",
+        ))
         fig.add_vline(x=anchor_day, line=dict(color=INK_MUTED, width=1, dash="dot"),
                       annotation_text="hoje", annotation_font_size=9)
     fig.update_xaxes(title_text="Data (mm-dd)", tickmode="array",
                      tickvals=SEASON_TICKVALS, ticktext=SEASON_TICKTEXT)
     fig.update_yaxes(title_text=f"{METRIC_LABEL[metric]} ({info['unit']})")
     st.plotly_chart(styled(fig, height=430), width="stretch")
-    if fc and fc["metric"] == metric:
+    if fc:
         issued_dt = forecast.get("issued", "")[:16].replace("T", " ")
         st.caption(f"Previsão: ensemble ECMWF (50 membros), modelo rainfall-runoff por "
                   f"estação · emitida {issued_dt} UTC · gatilho de referência P95 = "
-                  f"{fc['trig_thr']:.1f} {info['unit']}.")
+                  f"{fc['trig_thr']:.1f} {info['unit']} · risco de cruzá-lo em 15 dias: "
+                  f"{fc['trigger_prob_15d'] * 100:.0f}%.")
 
     with st.expander(f"Ver detalhe do {EXCESS_LABEL[metric].lower()}"):
         env = info["envelope"]
@@ -577,23 +630,25 @@ with tab_forecast:
 
         st.markdown("**Estações em risco de ultrapassar o P95 nos próximos 15 dias**")
         risk_rows = []
-        for code, fc in forecast["stations"].items():
+        for code, fc_station in forecast["stations"].items():
             match = df[df["code"] == code]
             if match.empty:
                 continue
             m = match.iloc[0]
-            risk_rows.append({
-                "Estação": m["name"], "Rio": m["river"] or "—",
-                "Métrica": METRIC_LABEL[fc["metric"]],
-                "Prob. 15d (%)": round(fc["trigger_prob_15d"] * 100),
-                "Pico previsto": f"{fc['peak_median']:.1f} {m['unit']}",
-                "Data do pico": fc["peak_date"],
-            })
+            for fmetric, fc in fc_station["metrics"].items():
+                risk_rows.append({
+                    "Estação": m["name"], "Rio": m["river"] or "—",
+                    "Métrica": METRIC_LABEL[fmetric],
+                    "Prob. 15d (%)": round(fc["trigger_prob_15d"] * 100),
+                    "Pico previsto": f"{fc['peak_median']:.1f} {fc['unit']}",
+                    "Data do pico": fc["peak_date"],
+                })
         risk_df = pd.DataFrame(risk_rows).sort_values("Prob. 15d (%)", ascending=False)
         n_flagged = int((risk_df["Prob. 15d (%)"] >= 30).sum())
-        st.caption(f"{n_flagged} de {len(risk_df)} estações com probabilidade ≥ 30% de "
-                  f"cruzar o P95 (gatilho de referência) em algum dia dos próximos "
-                  f"15 dias — fração dos 50 membros do ensemble que cruzam o limiar.")
+        st.caption(f"{n_flagged} de {len(risk_df)} séries (estação × métrica) com "
+                  f"probabilidade ≥ 30% de cruzar o P95 (gatilho de referência) em algum "
+                  f"dia dos próximos 15 dias — fração dos 50 membros do ensemble que "
+                  f"cruzam o limiar. Vazão e nível são previstos separadamente.")
         st.dataframe(
             risk_df, width="stretch", hide_index=True, height=340,
             column_config={
