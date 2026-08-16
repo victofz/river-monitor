@@ -123,18 +123,39 @@ st.markdown(f"""
 # --------------------------------------------------------------------------
 # Carregamento
 # --------------------------------------------------------------------------
+def _stamp(*names: str) -> tuple:
+    """Assinatura (tamanho, mtime) dos arquivos de dados.
+
+    st.cache_data indexa pelo codigo da funcao + argumentos -- o CONTEUDO do
+    arquivo lido nao entra na chave. Num redeploy do Streamlit Cloud isso ja
+    fez o processo continuar servindo a leitura antiga de um arquivo que
+    mudou (codigo novo + dado velho = KeyError de esquema). Passar esta
+    assinatura como argumento faz o cache invalidar sozinho quando o arquivo
+    muda, que e o comportamento que se espera.
+    """
+    out = []
+    for name in names:
+        p = DATA / name
+        out.append((name, p.stat().st_size, p.stat().st_mtime) if p.exists() else (name, 0, 0))
+    return tuple(out)
+
+
 @st.cache_data
+def _read_json(_stamp_key: tuple, name: str) -> dict:
+    p = DATA / name
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+
+
 def load_status() -> dict:
-    return json.loads((DATA / "status.json").read_text(encoding="utf-8"))
+    return _read_json(_stamp("status.json"), "status.json")
 
 
-@st.cache_data
 def load_baseline() -> dict:
-    return json.loads((DATA / "baseline.json").read_text(encoding="utf-8"))
+    return _read_json(_stamp("baseline.json"), "baseline.json")
 
 
 @st.cache_data
-def load_current(code: str) -> pd.DataFrame:
+def load_current(code: str, _stamp_key: tuple = ()) -> pd.DataFrame:
     """Buffer rolante da estacao -- colunas 'flow' e/ou 'level'."""
     p = DATA / "current" / f"{code}.parquet"
     if not p.exists():
@@ -144,24 +165,26 @@ def load_current(code: str) -> pd.DataFrame:
     return df.sort_index()
 
 
-@st.cache_data
 def load_forecast() -> dict:
     """Previsao operacional (ensemble ECMWF, ~15d) importada do RIVERFLOW --
-    atualizada manualmente via etl/import_forecast.py, nao pelo job horario."""
-    p = DATA / "forecast.json"
-    if not p.exists():
-        return {}
-    return json.loads(p.read_text(encoding="utf-8"))
+    atualizada manualmente via etl/import_forecast.py, nao pelo job horario.
+
+    Descarta entradas fora do esquema atual (com forecast por metrica) para
+    que uma versao antiga do arquivo degrade em "sem previsao" em vez de
+    quebrar a pagina.
+    """
+    raw = _read_json(_stamp("forecast.json"), "forecast.json")
+    stations = {
+        code: st for code, st in raw.get("stations", {}).items()
+        if isinstance(st.get("metrics"), dict) and st["metrics"]
+    }
+    return {**raw, "stations": stations} if raw else {}
 
 
-@st.cache_data
 def load_rain_forecast() -> dict:
     """Grade de chuva acumulada prevista (ensemble ECMWF) -- mesma origem e
     mesma cadencia de atualizacao manual do load_forecast() acima."""
-    p = DATA / "rain_forecast.json"
-    if not p.exists():
-        return {}
-    return json.loads(p.read_text(encoding="utf-8"))
+    return _read_json(_stamp("rain_forecast.json"), "rain_forecast.json")
 
 
 METRIC_LABEL = {"flow": "Vazão", "level": "Nível"}
@@ -484,7 +507,8 @@ with tab_explore:
                 key=f"season_{code}_{metric}")
 
         disp = season_display(metric, season_choice, info,
-                              load_current(code), status["season_year"])
+                              load_current(code, _stamp(f"current/{code}.parquet")),
+                              status["season_year"])
 
         m1, m2, m3 = st.columns(3)
         if disp["is_current"]:
@@ -597,7 +621,7 @@ with tab_explore:
                                       fill="tonexty", fillcolor="rgba(140,138,128,.12)",
                                       line=dict(color="rgba(120,118,110,.55)", width=1)))
         if disp["is_current"]:
-            s = load_current(code)
+            s = load_current(code, _stamp(f"current/{code}.parquet"))
             s = s[metric].dropna() if metric in s.columns else pd.Series(dtype=float)
             s = hydro.season_slice(s, status["season_year"])
             curve = hydro.cei_curve(s, info["threshold"])
@@ -638,24 +662,28 @@ with tab_forecast:
             for fmetric, fc in fc_station["metrics"].items():
                 risk_rows.append({
                     "Estação": m["name"], "Rio": m["river"] or "—",
-                    "Métrica": METRIC_LABEL[fmetric],
+                    "Métrica": METRIC_LABEL.get(fmetric, fmetric),
                     "Prob. 15d (%)": round(fc["trigger_prob_15d"] * 100),
                     "Pico previsto": f"{fc['peak_median']:.1f} {fc['unit']}",
                     "Data do pico": fc["peak_date"],
                 })
-        risk_df = pd.DataFrame(risk_rows).sort_values("Prob. 15d (%)", ascending=False)
-        n_flagged = int((risk_df["Prob. 15d (%)"] >= 30).sum())
-        st.caption(f"{n_flagged} de {len(risk_df)} séries (estação × métrica) com "
-                  f"probabilidade ≥ 30% de cruzar o P95 (gatilho de referência) em algum "
-                  f"dia dos próximos 15 dias — fração dos 50 membros do ensemble que "
-                  f"cruzam o limiar. Vazão e nível são previstos separadamente.")
-        st.dataframe(
-            risk_df, width="stretch", hide_index=True, height=340,
-            column_config={
-                "Prob. 15d (%)": st.column_config.ProgressColumn(
-                    "Prob. 15d (%)", min_value=0, max_value=100, format="%.0f%%"),
-            },
-        )
+        if not risk_rows:
+            st.info("Nenhuma estação da previsão coincide com o painel monitorado "
+                    "nesta versão dos dados.")
+        else:
+            risk_df = pd.DataFrame(risk_rows).sort_values("Prob. 15d (%)", ascending=False)
+            n_flagged = int((risk_df["Prob. 15d (%)"] >= 30).sum())
+            st.caption(f"{n_flagged} de {len(risk_df)} séries (estação × métrica) com "
+                      f"probabilidade ≥ 30% de cruzar o P95 (gatilho de referência) em algum "
+                      f"dia dos próximos 15 dias — fração dos 50 membros do ensemble que "
+                      f"cruzam o limiar. Vazão e nível são previstos separadamente.")
+            st.dataframe(
+                risk_df, width="stretch", hide_index=True, height=340,
+                column_config={
+                    "Prob. 15d (%)": st.column_config.ProgressColumn(
+                        "Prob. 15d (%)", min_value=0, max_value=100, format="%.0f%%"),
+                },
+            )
 
         st.write("")
         horizon = rain_forecast.get("horizon_days", 15)
