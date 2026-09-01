@@ -1,5 +1,5 @@
 {
- "updated_utc": "2026-09-01 07:22 UTC",
+ "updated_utc": "2026-09-01 08:33 UTC",
  "season_year": 2026,
  "season_label": "2026/27",
  "n_stations": 50,
@@ -675,7 +675,7 @@
    "last_value": 1054.33,
    "days_since": 0,
    "status": "alto",
-   "cei_now": 8503.35,
+   "cei_now": 8509.13,
    "cei_pct_rank": 69.6,
    "season_day": 62
   },
@@ -698,7 +698,7 @@
    "last_value": 1564.33,
    "days_since": 0,
    "status": "alto",
-   "cei_now": 17466.51,
+   "cei_now": 17468.86,
    "cei_pct_rank": 69.6,
    "season_day": 62
   },
@@ -721,7 +721,7 @@
    "last_value": 1571.67,
    "days_since": 0,
    "status": "alto",
-   "cei_now": 16946.8,
+   "cei_now": 16957.37,
    "cei_pct_rank": 69.6,
    "season_day": 62
   },
@@ -767,7 +767,7 @@
    "last_value": 1862.04,
    "days_since": 0,
    "status": "alto",
-   "cei_now": 18264.17,
+   "cei_now": 18265.0,
    "cei_pct_rank": 75.6,
    "season_day": 62
   },
