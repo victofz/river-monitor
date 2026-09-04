@@ -1,5 +1,5 @@
 {
- "updated_utc": "2026-09-04 07:22 UTC",
+ "updated_utc": "2026-09-04 08:28 UTC",
  "season_year": 2026,
  "season_label": "2026/27",
  "n_stations": 50,
@@ -169,7 +169,7 @@
    "last_value": 8940.85,
    "days_since": 0,
    "status": "elevado",
-   "cei_now": 35934.62,
+   "cei_now": 36041.8,
    "cei_pct_rank": 51.2,
    "season_day": 65
   },
