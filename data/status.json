@@ -1,5 +1,5 @@
 {
- "updated_utc": "2026-09-23 07:24 UTC",
+ "updated_utc": "2026-09-23 08:33 UTC",
  "season_year": 2026,
  "season_label": "2026/27",
  "n_stations": 50,
@@ -721,7 +721,7 @@
    "last_value": 2608.0,
    "days_since": 0,
    "status": "extremo",
-   "cei_now": 25126.03,
+   "cei_now": 25597.66,
    "cei_pct_rank": 87.0,
    "season_day": 84
   },
@@ -744,7 +744,7 @@
    "last_value": 166.43,
    "days_since": 0,
    "status": "elevado",
-   "cei_now": 3325.79,
+   "cei_now": 3331.55,
    "cei_pct_rank": 83.7,
    "season_day": 84
   },
@@ -767,7 +767,7 @@
    "last_value": 3001.1,
    "days_since": 0,
    "status": "extremo",
-   "cei_now": 25106.33,
+   "cei_now": 25198.56,
    "cei_pct_rank": 88.4,
    "season_day": 84
   },
@@ -813,7 +813,7 @@
    "last_value": 3615.75,
    "days_since": 0,
    "status": "alto",
-   "cei_now": 30534.41,
+   "cei_now": 30620.42,
    "cei_pct_rank": 81.8,
    "season_day": 84
   },
@@ -836,7 +836,7 @@
    "last_value": 1684.77,
    "days_since": 0,
    "status": "extremo",
-   "cei_now": 2363.08,
+   "cei_now": 2364.34,
    "cei_pct_rank": 87.9,
    "season_day": 84
   },
@@ -859,7 +859,7 @@
    "last_value": 7810.73,
    "days_since": 0,
    "status": "extremo",
-   "cei_now": 35699.85,
+   "cei_now": 35687.17,
    "cei_pct_rank": 87.5,
    "season_day": 84
   },
@@ -928,7 +928,7 @@
    "last_value": 181.15,
    "days_since": 0,
    "status": "elevado",
-   "cei_now": 1120.46,
+   "cei_now": 1126.69,
    "cei_pct_rank": 46.4,
    "season_day": 84
   },
@@ -951,7 +951,7 @@
    "last_value": 849.73,
    "days_since": 0,
    "status": "extremo",
-   "cei_now": 2515.35,
+   "cei_now": 2520.4,
    "cei_pct_rank": 68.8,
    "season_day": 84
   },
