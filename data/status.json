@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-10-06 03:26 UTC",
+ "updated_utc": "2026-10-06 04:25 UTC",
  "season_year": 2026,
  "season_label": "2026/27",
  "n_stations": 50,
  "n_fresh": 42,
  "status_counts": {
-  "normal": 12,
-  "elevado": 22,
+  "normal": 14,
+  "elevado": 21,
   "alto": 8,
-  "extremo": 4,
+  "extremo": 3,
   "sem_dado": 4
  },
  "stations": [
@@ -28,7 +28,7 @@
    "p99": 1807.788,
    "n_seasons": 21,
    "last_date": "2026-10-05",
-   "last_value": 746.55,
+   "last_value": 746.39,
    "days_since": 1,
    "status": "elevado",
    "cei_now": 21974.17,
@@ -51,7 +51,7 @@
    "p99": 174.33,
    "n_seasons": 20,
    "last_date": "2026-10-05",
-   "last_value": 113.16,
+   "last_value": 113.02,
    "days_since": 1,
    "status": "elevado",
    "cei_now": 1697.82,
@@ -74,10 +74,10 @@
    "p99": 302.0,
    "n_seasons": 47,
    "last_date": "2026-10-05",
-   "last_value": 260.43,
+   "last_value": 262.04,
    "days_since": 1,
    "status": "alto",
-   "cei_now": 2400.81,
+   "cei_now": 2402.42,
    "cei_pct_rank": 78.7,
    "season_day": 96
   },
@@ -97,7 +97,7 @@
    "p99": 8145.523,
    "n_seasons": 21,
    "last_date": "2026-10-05",
-   "last_value": 2929.09,
+   "last_value": 2846.35,
    "days_since": 1,
    "status": "elevado",
    "cei_now": 31263.92,
@@ -119,13 +119,13 @@
    "p97": 6520.327,
    "p99": 10356.756,
    "n_seasons": 62,
-   "last_date": "2026-10-05",
-   "last_value": 5000.19,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 3794.16,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 46759.91,
    "cei_pct_rank": 72.6,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "74500000",
@@ -142,13 +142,13 @@
    "p97": 7334.204,
    "p99": 11419.606,
    "n_seasons": 16,
-   "last_date": "2026-10-05",
-   "last_value": 6632.2,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 6547.49,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 45236.52,
    "cei_pct_rank": 75.0,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "74800000",
@@ -165,13 +165,13 @@
    "p97": 10497.999,
    "p99": 15900.216,
    "n_seasons": 43,
-   "last_date": "2026-10-05",
-   "last_value": 7922.62,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 8253.57,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 55183.69,
    "cei_pct_rank": 62.8,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "75230000",
@@ -188,13 +188,13 @@
    "p97": 618.817,
    "p99": 928.355,
    "n_seasons": 84,
-   "last_date": "2026-10-05",
-   "last_value": 564.97,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 514.86,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 4128.37,
    "cei_pct_rank": 76.2,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "75290000",
@@ -211,13 +211,13 @@
    "p97": 219.702,
    "p99": 321.57,
    "n_seasons": 21,
-   "last_date": "2026-10-05",
-   "last_value": 208.43,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 185.3,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 1488.13,
    "cei_pct_rank": 90.5,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "75500000",
@@ -257,13 +257,13 @@
    "p97": 11115.575,
    "p99": 16185.475,
    "n_seasons": 29,
-   "last_date": "2026-10-05",
-   "last_value": 11059.88,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 10445.62,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 17851.91,
    "cei_pct_rank": 44.8,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "75780000",
@@ -280,13 +280,13 @@
    "p97": 12512.74,
    "p99": 18636.709,
    "n_seasons": 28,
-   "last_date": "2026-10-05",
-   "last_value": 14655.69,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 14128.5,
+   "days_since": 0,
    "status": "alto",
-   "cei_now": 18830.87,
-   "cei_pct_rank": 42.9,
-   "season_day": 96
+   "cei_now": 20446.63,
+   "cei_pct_rank": 46.4,
+   "season_day": 97
   },
   {
    "code": "75900000",
@@ -303,13 +303,13 @@
    "p97": 11856.4,
    "p99": 16515.332,
    "n_seasons": 25,
-   "last_date": "2026-10-05",
-   "last_value": 10033.4,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 10313.44,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 0.0,
    "cei_pct_rank": 44.0,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "76251000",
@@ -326,13 +326,13 @@
    "p97": 242.952,
    "p99": 336.459,
    "n_seasons": 26,
-   "last_date": "2026-10-05",
-   "last_value": 99.72,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 92.96,
+   "days_since": 0,
    "status": "normal",
    "cei_now": 1025.78,
    "cei_pct_rank": 65.4,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "76300000",
@@ -349,13 +349,13 @@
    "p97": 569.418,
    "p99": 830.992,
    "n_seasons": 59,
-   "last_date": "2026-10-05",
-   "last_value": 654.48,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 601.25,
+   "days_since": 0,
    "status": "alto",
-   "cei_now": 2259.79,
+   "cei_now": 2291.63,
    "cei_pct_rank": 66.1,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "76310000",
@@ -372,13 +372,13 @@
    "p97": 1235.614,
    "p99": 1864.924,
    "n_seasons": 59,
-   "last_date": "2026-10-05",
-   "last_value": 1347.44,
-   "days_since": 1,
-   "status": "alto",
-   "cei_now": 4093.54,
+   "last_date": "2026-10-06",
+   "last_value": 1209.35,
+   "days_since": 0,
+   "status": "elevado",
+   "cei_now": 4092.16,
    "cei_pct_rank": 61.0,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "76560000",
@@ -395,13 +395,13 @@
    "p97": 2498.368,
    "p99": 3557.683,
    "n_seasons": 59,
-   "last_date": "2026-10-05",
-   "last_value": 4135.99,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 4101.19,
+   "days_since": 0,
    "status": "extremo",
-   "cei_now": 6693.17,
-   "cei_pct_rank": 67.8,
-   "season_day": 96
+   "cei_now": 8295.74,
+   "cei_pct_rank": 72.9,
+   "season_day": 97
   },
   {
    "code": "76700000",
@@ -441,13 +441,13 @@
    "p97": 160.441,
    "p99": 232.153,
    "n_seasons": 48,
-   "last_date": "2026-10-05",
-   "last_value": 94.15,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 92.64,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 229.2,
    "cei_pct_rank": 29.2,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "76750000",
@@ -464,13 +464,13 @@
    "p97": 708.364,
    "p99": 991.61,
    "n_seasons": 86,
-   "last_date": "2026-10-05",
-   "last_value": 928.44,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 877.7,
+   "days_since": 0,
    "status": "alto",
-   "cei_now": 683.81,
-   "cei_pct_rank": 38.4,
-   "season_day": 96
+   "cei_now": 852.16,
+   "cei_pct_rank": 41.9,
+   "season_day": 97
   },
   {
    "code": "76800000",
@@ -487,13 +487,13 @@
    "p97": 3552.27,
    "p99": 4655.01,
    "n_seasons": 62,
-   "last_date": "2026-10-05",
-   "last_value": 4713.2,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 4828.93,
+   "days_since": 0,
    "status": "extremo",
-   "cei_now": 2744.62,
-   "cei_pct_rank": 56.5,
-   "season_day": 96
+   "cei_now": 4022.4,
+   "cei_pct_rank": 61.3,
+   "season_day": 97
   },
   {
    "code": "77150000",
@@ -510,13 +510,13 @@
    "p97": 16583.727,
    "p99": 20799.366,
    "n_seasons": 43,
-   "last_date": "2026-10-05",
-   "last_value": 13680.24,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 14356.36,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 0.0,
    "cei_pct_rank": 46.5,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "77500000",
@@ -534,7 +534,7 @@
    "p99": 1263.653,
    "n_seasons": 33,
    "last_date": "2026-10-06",
-   "last_value": 184.24,
+   "last_value": 181.93,
    "days_since": 0,
    "status": "normal",
    "cei_now": 4294.49,
@@ -579,13 +579,13 @@
    "p97": 1465.106,
    "p99": 2190.556,
    "n_seasons": 86,
-   "last_date": "2026-10-05",
-   "last_value": 2250.87,
-   "days_since": 1,
-   "status": "extremo",
-   "cei_now": 18231.42,
-   "cei_pct_rank": 91.9,
-   "season_day": 96
+   "last_date": "2026-10-06",
+   "last_value": 2125.72,
+   "days_since": 0,
+   "status": "alto",
+   "cei_now": 18892.03,
+   "cei_pct_rank": 93.0,
+   "season_day": 97
   },
   {
    "code": "85642000",
@@ -603,10 +603,10 @@
    "p99": 3185.876,
    "n_seasons": 45,
    "last_date": "2026-10-06",
-   "last_value": 3479.22,
+   "last_value": 3476.58,
    "days_since": 0,
    "status": "extremo",
-   "cei_now": 10419.33,
+   "cei_now": 10416.69,
    "cei_pct_rank": 80.0,
    "season_day": 97
   },
@@ -648,13 +648,13 @@
    "p97": 128.141,
    "p99": 233.136,
    "n_seasons": 86,
-   "last_date": "2026-10-05",
-   "last_value": 28.72,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 22.83,
+   "days_since": 0,
    "status": "normal",
    "cei_now": 690.35,
    "cei_pct_rank": 50.0,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86305000",
@@ -671,13 +671,13 @@
    "p97": 764.14,
    "p99": 1261.729,
    "n_seasons": 23,
-   "last_date": "2026-10-05",
-   "last_value": 339.43,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 287.5,
+   "days_since": 0,
    "status": "normal",
    "cei_now": 15921.36,
    "cei_pct_rank": 95.7,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86448000",
@@ -694,13 +694,13 @@
    "p97": 1350.92,
    "p99": 2249.84,
    "n_seasons": 23,
-   "last_date": "2026-10-05",
-   "last_value": 716.19,
-   "days_since": 1,
-   "status": "elevado",
+   "last_date": "2026-10-06",
+   "last_value": 612.0,
+   "days_since": 0,
+   "status": "normal",
    "cei_now": 29855.49,
    "cei_pct_rank": 95.7,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86470800",
@@ -717,13 +717,13 @@
    "p97": 1405.72,
    "p99": 2283.544,
    "n_seasons": 23,
-   "last_date": "2026-10-05",
-   "last_value": 760.05,
-   "days_since": 1,
-   "status": "elevado",
+   "last_date": "2026-10-06",
+   "last_value": 639.0,
+   "days_since": 0,
+   "status": "normal",
    "cei_now": 29630.87,
    "cei_pct_rank": 95.7,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86500000",
@@ -740,13 +740,13 @@
    "p97": 234.9,
    "p99": 429.703,
    "n_seasons": 86,
-   "last_date": "2026-10-05",
-   "last_value": 158.54,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 127.67,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 4604.46,
    "cei_pct_rank": 88.4,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86510000",
@@ -764,7 +764,7 @@
    "p99": 2902.021,
    "n_seasons": 86,
    "last_date": "2026-10-06",
-   "last_value": 1204.49,
+   "last_value": 1183.31,
    "days_since": 0,
    "status": "elevado",
    "cei_now": 30905.69,
@@ -810,7 +810,7 @@
    "p99": 3855.19,
    "n_seasons": 66,
    "last_date": "2026-10-06",
-   "last_value": 1261.81,
+   "last_value": 1242.0,
    "days_since": 0,
    "status": "elevado",
    "cei_now": 37160.52,
@@ -832,13 +832,13 @@
    "p97": 1302.0,
    "p99": 1322.82,
    "n_seasons": 66,
-   "last_date": "2026-10-05",
-   "last_value": 815.49,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 738.7,
+   "days_since": 0,
    "status": "normal",
    "cei_now": 2723.97,
    "cei_pct_rank": 89.4,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86895000",
@@ -855,13 +855,13 @@
    "p97": 2759.302,
    "p99": 4990.33,
    "n_seasons": 48,
-   "last_date": "2026-10-05",
-   "last_value": 2353.82,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 2013.39,
+   "days_since": 0,
    "status": "elevado",
    "cei_now": 45691.99,
    "cei_pct_rank": 91.7,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "86950000",
@@ -925,7 +925,7 @@
    "p99": 396.226,
    "n_seasons": 84,
    "last_date": "2026-10-06",
-   "last_value": 51.01,
+   "last_value": 50.19,
    "days_since": 0,
    "status": "normal",
    "cei_now": 1192.42,
@@ -948,7 +948,7 @@
    "p99": 639.176,
    "n_seasons": 48,
    "last_date": "2026-10-06",
-   "last_value": 180.19,
+   "last_value": 179.01,
    "days_since": 0,
    "status": "elevado",
    "cei_now": 2609.65,
@@ -1040,7 +1040,7 @@
    "p99": 354.131,
    "n_seasons": 81,
    "last_date": "2026-10-06",
-   "last_value": 148.86,
+   "last_value": 148.24,
    "days_since": 0,
    "status": "normal",
    "cei_now": 1337.93,
@@ -1131,13 +1131,13 @@
    "p97": 1849.531,
    "p99": 2699.0,
    "n_seasons": 61,
-   "last_date": "2026-10-05",
-   "last_value": 611.01,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 601.51,
+   "days_since": 0,
    "status": "normal",
    "cei_now": 0.0,
    "cei_pct_rank": 13.1,
-   "season_day": 96
+   "season_day": 97
   },
   {
    "code": "88260000",
@@ -1154,13 +1154,13 @@
    "p97": 852.32,
    "p99": 1296.355,
    "n_seasons": 11,
-   "last_date": "2026-10-05",
-   "last_value": 75.97,
-   "days_since": 1,
+   "last_date": "2026-10-06",
+   "last_value": 64.12,
+   "days_since": 0,
    "status": "normal",
    "cei_now": 7787.74,
    "cei_pct_rank": 90.9,
-   "season_day": 96
+   "season_day": 97
   }
  ]
 }
