@@ -1,5 +1,5 @@
 {
- "updated_utc": "2026-11-22 04:15 UTC",
+ "updated_utc": "2026-11-22 05:16 UTC",
  "season_year": 2026,
  "season_label": "2026/27",
  "n_stations": 50,
@@ -73,13 +73,13 @@
    "p97": 179.0,
    "p99": 302.0,
    "n_seasons": 47,
-   "last_date": "2026-11-21",
-   "last_value": 239.0,
-   "days_since": 1,
+   "last_date": "2026-11-22",
+   "last_value": 272.0,
+   "days_since": 0,
    "status": "alto",
-   "cei_now": 3526.18,
+   "cei_now": 3619.18,
    "cei_pct_rank": 87.2,
-   "season_day": 143
+   "season_day": 144
   },
   {
    "code": "74040080",
